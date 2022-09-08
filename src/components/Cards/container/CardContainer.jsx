@@ -1,41 +1,22 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
-import { neumorphismDivContainer, neumorphismDivItem } from '../../../styles/GlobalStyles';
+import { neumorphismDivContainer } from '../../../styles/GlobalStyles';
+import ItemCard from '../molecules/ItemCard/ItemCard';
 
 const CardContainer = () => {
     return (
         <Box sx={{
             ...neumorphismDivContainer,
-            margin: '20px',
-            padding: 20,
+            margin: 20,
+            padding: 10,
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
         }}>
-            <Box sx={{
-                ...neumorphismDivItem,
-                width: 150,
-                height: 200,
-                margin: 10,
-            }}/>
-            <Box sx={{
-                ...neumorphismDivItem,
-                width: 150,
-                height: 200,
-                margin: 10,
-            }}/>
-            <Box sx={{
-                ...neumorphismDivItem,
-                width: 150,
-                height: 200,
-                margin: 10,
-            }}/>
-            <Box sx={{
-                ...neumorphismDivItem,
-                width: 150,
-                height: 200,
-                margin: 10,
-            }}/>
+            <ItemCard title={'Titulo'} />
+            <ItemCard title={'Titulo'} />
+            <ItemCard title={'Titulo'} />
+            
         </Box>
     );
 }

@@ -11,6 +11,9 @@
 # production
 /build
 
+# other
+pelis/
+
 # misc
 .DS_Store
 .env.local

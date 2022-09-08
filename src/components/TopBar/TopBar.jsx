@@ -17,6 +17,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ListItemButton from "@mui/material/ListItemButton";
 import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { globalsColors } from "../../styles/GlobalStyles";
 
 const drawerWidth = 240;
 const navItems = ["Filmes", "Series", "Novelas", "Anime"];
@@ -73,9 +74,11 @@ const TopBar = (props) => {
       }}
     >
       <AppBar component="nav" style={{
-        backgroundColor: 'RGB(225,225,225,0.7)',
-        color: 'RGB(25,118,210)',
+        backgroundColor: 'RGB(255,255,255,0.7)',
+        color: globalsColors.primary,
+        borderBottom: 'RGB(25,118,210,0.2) 1px solid',
         backdropFilter: 'blur(20px)',
+        boxShadow: '0px 2px 4px -1px RGB(255,255,255,0.3), 0px 4px 5px 0px RGB(255,255,255,0.2)',
       }}>
         <Toolbar
           style={{
