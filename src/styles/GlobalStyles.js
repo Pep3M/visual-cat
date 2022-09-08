@@ -29,13 +29,16 @@ const GlobalStyles = () => {
   return null;
 };
 
+const deepN = 7
+
 export const neumorphismDivItem = {
   borderRadius: '10%',
-  background: '#e0e0e0',
-  boxShadow:  '28px 28px 56px #bebebe, -28px -28px 56px #ffffff',
+  boxShadow:  `${deepN}px ${deepN}px ${deepN * 2}px #bebebe, -${deepN}px -${deepN}px ${deepN * 2}px #ffffff`,
 }
 export const neumorphismDivContainer = {
-  background: '#e0e0e0',
+  background: 'RGB(224,224,224,0.6)',
   borderRadius: '15px',
+  backdropFilter: 'blur(20px)',
+  zIndex: 1,
 }
 export default GlobalStyles;

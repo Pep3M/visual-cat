@@ -19,7 +19,7 @@ import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
 const drawerWidth = 240;
-const navItems = ["Filmes", "Series", "Novelas", "Anime", "Sobre nosotros"];
+const navItems = ["Filmes", "Series", "Novelas", "Anime"];
 
 const TopBar = (props) => {
   const theme = useTheme();
@@ -72,7 +72,11 @@ const TopBar = (props) => {
         display: "flex", justifyContent: "space-between", 
       }}
     >
-      <AppBar component="nav">
+      <AppBar component="nav" style={{
+        backgroundColor: 'RGB(225,225,225,0.7)',
+        color: 'RGB(25,118,210)',
+        backdropFilter: 'blur(20px)',
+      }}>
         <Toolbar
           style={{
             display: "flex",  justifyContent: "space-between",
@@ -98,7 +102,7 @@ const TopBar = (props) => {
           </Box>
           <Box sx={{ display: !bp600up ? 'none' : 'block' }}>
             {navItems.map((item) => (
-              <Button key={item} variant="text" style={{ color: "#ffffff" }}>
+              <Button key={item} variant="text" style={{ color: "RGB(25,118,210)" }}>
                {item}
               </Button>
             ))}
