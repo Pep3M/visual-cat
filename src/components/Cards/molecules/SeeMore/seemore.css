@@ -1,0 +1,64 @@
+.see_more_container {
+    position: relative;
+    top: 2px;
+    z-index: 2;
+    height: 30px;
+    margin: 0 5px;
+}
+
+.boton {
+    color: #e8eaed;
+    line-height: 22px;
+    background: #5b5b5c;
+    border: 1px solid rgba(255,255,255,0);
+    box-sizing: border-box;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
+    pointer-events: auto;
+    position: relative;
+    width: 300px;
+    padding: 7px 11px;
+    flex-direction: row-reverse;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    height: 36px;
+    border-radius: 18px;
+}
+
+hr {
+    background-color: #3c4043;
+    border: 0;
+    height: 1px;
+    left: 0;
+    margin-top: 18px;
+    position: absolute;
+    width: 100%;
+}
+
+.container_arrow {
+    margin-left: 0px;
+    flex: none;
+    color: #9aa0a6;
+    height: 20px;
+    margin-top: -2px;
+    margin-bottom: -2px;
+}
+
+.container_arrow .arrow {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    fill: currentColor;
+    line-height: 24px;
+    position: relative;
+}
+
+.ver_mas {
+    display: inline-block;
+    max-width: 220px;
+    white-space: nowrap;
+}
