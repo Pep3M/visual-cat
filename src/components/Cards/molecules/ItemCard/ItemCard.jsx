@@ -8,9 +8,12 @@ import {
 } from "../../../../styles/GlobalStyles";
 import { Skeleton } from "@mui/material";
 import { useRef, useEffect, useState } from "react";
+//use redux
+import { connect } from 'react-redux';
+import { setPeliSelection, deletePeliSelection } from "../../../../actions";
 
 const ItemCard = (props) => {
-  const { title, img, id, size } = props;
+  const { title, img, id, size, setPeliSelection, deletePeliSelection } = props;
   const sizeFinal = size ?? 150;
 
   const [selected, setSelected] = useState(false);
@@ -28,7 +31,19 @@ const ItemCard = (props) => {
   }, [ref]);
 
   const handleCallback = (childData) => {
+    console.log(childData);
     setSelected(childData);
+    if (childData) {
+      setPeliSelection({
+        Nombre: title, 
+        Imagen: img
+      })
+    } else {
+      console.log(title);
+      deletePeliSelection({
+        Nombre: title,
+      })
+    }
   };
 
   return (
@@ -86,4 +101,9 @@ const ItemCard = (props) => {
   );
 };
 
-export default ItemCard;
+const mapDispatchToProps = {
+  setPeliSelection,
+  deletePeliSelection,
+}
+
+export default connect(null, mapDispatchToProps)(ItemCard);

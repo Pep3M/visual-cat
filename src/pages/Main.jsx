@@ -4,10 +4,12 @@ import CardContainer from "../components/Cards/container/CardContainer";
 import TopBar from "../components/TopBar/TopBar";
 import pelisData from '../pelis.json'
 import { globalsColors } from "../styles/GlobalStyles";
+//redux
+import { connect } from 'react-redux';
 
-const Main = () => {
+const Main = (props) => {
   const claves = Object.keys(pelisData);
-  
+  console.log(props.pelis);
   return (
     <Box
       sx={{
@@ -19,6 +21,9 @@ const Main = () => {
       <TopBar />
       <Box sx={{
       }}>
+        {/* Como prueba, para visualizar */}
+        <CardContainer header={'Seleccion'} video={props.pelis} />
+        
         {claves.map((item, key) => (
           <CardContainer key={key} header={item} video={pelisData[item]} />
         ))}
@@ -27,4 +32,8 @@ const Main = () => {
   );
 };
 
-export default Main;
+const mapStateToProps = state => ({
+  pelis: state.pelis,
+})
+
+export default connect(mapStateToProps, null)(Main);
