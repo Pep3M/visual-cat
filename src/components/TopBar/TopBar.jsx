@@ -24,7 +24,7 @@ const navItems = ["Filmes", "Series", "Novelas", "Anime"];
 
 const TopBar = (props) => {
   const theme = useTheme();
-  const bp600up = useMediaQuery(theme.breakpoints.up(600))
+  const bp600up = useMediaQuery(theme.breakpoints.up(600));
 
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -37,16 +37,17 @@ const TopBar = (props) => {
     <Box
       onClick={handleDrawerToggle}
       sx={{
-        height: '100%',
+        height: "100%",
         textAlign: "center",
-        /* bgcolor: '#f0f0f0' */
+        bgcolor: globalsColors.lightBaseThin,
       }}
     >
       <Typography
         variant="h6"
-        color="initial"
         style={{
-          margin: 20,
+          color: globalsColors.primary,
+          backgroundColor: globalsColors.lightBaseSecondary,
+          padding: 20,
         }}
       >
         Visual<strong>Cat</strong>
@@ -54,8 +55,8 @@ const TopBar = (props) => {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
+          <ListItem key={item}>
+            <ListItemButton sx={{ textAlign: "center", color: globalsColors.primary  }}>
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
@@ -70,43 +71,53 @@ const TopBar = (props) => {
   return (
     <Box
       sx={{
-        display: "flex", justifyContent: "space-between", 
+        display: "flex",
+        justifyContent: "space-between",
       }}
     >
-      <AppBar component="nav" style={{
-        backgroundColor: 'RGB(255,255,255,0.7)',
-        color: globalsColors.primary,
-        borderBottom: 'RGB(25,118,210,0.2) 1px solid',
-        backdropFilter: 'blur(20px)',
-        boxShadow: '0px 2px 4px -1px RGB(255,255,255,0.3), 0px 4px 5px 0px RGB(255,255,255,0.2)',
-      }}>
+      <AppBar
+        component="nav"
+        style={{
+          backgroundColor: globalsColors.lightBaseThin,
+          color: globalsColors.primary,
+          borderBottom: `${globalsColors.primaryThin} 1px solid`,
+          backdropFilter: "blur(20px)",
+          boxShadow:
+            "0px 2px 4px -1px RGB(255,255,255,0.3), 0px 4px 5px 0px RGB(255,255,255,0.2)",
+        }}
+      >
         <Toolbar
           style={{
-            display: "flex",  justifyContent: "space-between",
+            display: "flex",
+            justifyContent: "space-between"
           }}
         >
-          <Box sx={{ display: "flex", alignItems: 'center' }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              style={{ mr: 2, display: bp600up ? 'none' : 'block' }}
+              style={{ mr: 2, display: bp600up ? "none" : "block" }}
             >
               <MenuIcon />
             </IconButton>
             <Typography
               variant="h6"
               component="div"
-              style={{ flexGrow: 1, display: !bp600up ? 'none' : 'block'}}
+              style={{ flexGrow: 1, display: !bp600up ? "none" : "block" }}
             >
               VisualCat
             </Typography>
           </Box>
-          <Box sx={{ display: !bp600up ? 'none' : 'block' }}>
+          <Box sx={{ display: !bp600up ? "none" : "block" }}>
             {navItems.map((item) => (
-              <Button key={item} variant="text" style={{ color: "RGB(25,118,210)" }}>
-               {item}
+              <Button
+                key={item}
+                variant="text"
+                style={{ color: globalsColors.primary }}
+              >
+                {item}
               </Button>
             ))}
           </Box>
@@ -123,7 +134,7 @@ const TopBar = (props) => {
           }}
           style={{
             display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
+            "& .MuiDrawerPaper": {
               boxSizing: "border-box",
               width: drawerWidth,
             },
@@ -132,7 +143,7 @@ const TopBar = (props) => {
           {drawer}
         </Drawer>
       </Box>
-        <Toolbar />
+      <Toolbar />
     </Box>
   );
 };

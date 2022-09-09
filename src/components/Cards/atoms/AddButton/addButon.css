@@ -17,7 +17,7 @@ button:focus {
     z-index: 5;
     margin: auto;
     display: block;
-    background-color: #0416448a;
+    background-color: RGB(25,118,210);
     -webkit-border-radius: 50px;
     -moz-border-radius: 50px;
     border-radius: 50px;
@@ -30,14 +30,13 @@ button:focus {
     padding: 0;
     position: relative;
     cursor: pointer;
-    box-shadow: 2px 2px 15px 2px rgba(111, 28, 114, 0.347),
-        -2px -2px 10px 4px rgba(10, 21, 78, 0.404);
+    box-shadow: -1px -1px 10px 1px rgba(25,118,210, 0.404);
     backdrop-filter: blur(3px);
     
 }
 .sf-btn.add {
     /* background-color: transparent; */
-    border: 2px solid #c8c8c8;
+    border: 2px solid #eaeaea;
     outline-width: 0;
 
 }
@@ -51,7 +50,7 @@ button:focus {
     transition: 0.5s ease;
 }
 .sf-btn.loading {
-    background-color: #fff;
+    background-color: #eaeaea;
     border: none;
 }
 
@@ -101,7 +100,7 @@ button:focus {
 
 .line {
     display: block;
-    background: #ecf0f1;
+    background: #eaeaea;
     width: 90%;
     height: 3px;
     position: absolute;
@@ -118,7 +117,7 @@ button:focus {
 .add .line {
     width: 60%;
     left: 20%;
-    background-color: #c8c8c8;
+    background-color: #eaeaea;
 }
 .add.update .line {
     background-color: #eda549;
@@ -139,7 +138,7 @@ button:focus {
 
 .added .line {
     left: 5%;
-    background-color: #fff;
+    background-color: #eaeaea;
 }
 
 .sf-btn.added .line-1 {

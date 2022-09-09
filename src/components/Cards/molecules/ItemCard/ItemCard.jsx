@@ -1,14 +1,31 @@
 import { Link } from "react-router-dom";
 import AddButton from "../../atoms/AddButton/AddButton";
 import "./card.css";
-import { useState } from "react";
 import { Box } from "@material-ui/core";
-import { globalsColors, neumorphismDivItem } from "../../../../styles/GlobalStyles";
+import {
+  globalsColors,
+  neumorphismDivItem,
+} from "../../../../styles/GlobalStyles";
+import { Skeleton } from "@mui/material";
+import { useRef, useEffect, useState } from "react";
 
 const ItemCard = (props) => {
-  const [selected, setSelected] = useState(false);
   const { title, img, id, size } = props;
   const sizeFinal = size ?? 150;
+
+  const [selected, setSelected] = useState(false);
+  const [showImg, setShowImg] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver((entries) => {
+      const { isIntersecting } = entries[0];
+      if (isIntersecting) {
+        setShowImg(isIntersecting);
+      }
+    });
+    observer.observe(ref.current);
+  }, [ref]);
 
   const handleCallback = (childData) => {
     setSelected(childData);
@@ -16,6 +33,7 @@ const ItemCard = (props) => {
 
   return (
     <Box
+      ref={ref}
       className="card"
       sx={{
         ...neumorphismDivItem,
@@ -25,7 +43,7 @@ const ItemCard = (props) => {
         height: `${sizeFinal * 1.5}px`,
         minHeight: `${sizeFinal * 1.5}px`,
         margin: 10,
-        background: `linear-gradient(130deg, ${globalsColors.lightBaseExtra} 0%, ${globalsColors.lightBaseSecondary} 100%)`,
+        background: `linear-gradient(130deg, ${globalsColors.primaryThin} 0%, ${globalsColors.lightBaseThin} 100%)`,
         overflow: "hidden",
         position: "relative",
         transition: "100ms",
@@ -33,11 +51,37 @@ const ItemCard = (props) => {
     >
       <AddButton parentCallback={handleCallback} />
       {/* <Link to={"/movies/" + id}> */}
-      <div className="imagen_card">
-        {img === "" ? <></> : <img src={"./pelis/imgs/" + img} alt="" />}
-      </div>
+      {showImg ? (
+        <div className="imagen_card">
+          {img === "" ? (
+            <Skeleton
+              variant="rectangular"
+              animation="wave"
+              width={"100%"}
+              height={"100%"}
+            />
+          ) : (
+            <img src={"./pelis/imgs/" + img} alt="" />
+          )}
+        </div>
+      ) : (
+        <></>
+      )}
+
       {/* </Link> */}
-      <div className="footer_card">{title}</div>
+      <div
+        style={{
+          width: "100%",
+          padding: "8px",
+          color: "white",
+          backgroundImage: `linear-gradient(180deg, ${globalsColors.primaryThin} 1%, ${globalsColors.primary} 100%)`,
+          backdropFilter: "blur(3px)",
+          position: "absolute",
+          bottom: 0,
+        }}
+      >
+        {title}
+      </div>
     </Box>
   );
 };

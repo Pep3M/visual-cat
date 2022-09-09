@@ -2,7 +2,9 @@ import { createStyles, makeStyles } from "@material-ui/core";
 
 export const globalsColors = {
   primary: 'RGB(25,118,210)',
-  lightBasePrimary: '#fff',
+  primaryThin: 'RGBA(25,118,210,0.2)',
+  lightBasePrimary: '#e9f5ff',
+  lightBaseThin: 'RGBA(255,255,255,0.4)',
   lightBaseSecondary: '#fcfcfc',
   lightBaseExtra: '#eaeaea',
 
@@ -37,11 +39,11 @@ const GlobalStyles = () => {
   return null;
 };
 
-const deepN = 7
+const deepN = 3
 
 export const neumorphismDivItem = {
   borderRadius: '10%',
-  boxShadow:  `${deepN}px ${deepN}px ${deepN * 2}px #bebebe, -${deepN}px -${deepN}px ${deepN * 2}px #ffffff`,
+  boxShadow:  `${deepN}px ${deepN}px ${deepN * 2}px RGBA(111,111,111,0.5), -${deepN}px -${deepN}px ${deepN * 5}px RGB(255,255,255,0.5)`,
 }
 export const neumorphismDivContainer = {
   background: 'RGB(250,250,250,0.6)',

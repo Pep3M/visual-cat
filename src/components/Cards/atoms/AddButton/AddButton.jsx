@@ -31,11 +31,11 @@ const AddButton = (props) => {
       }}
     >
       <button type="submit" className={nombreClase} onClick={handleClicked}>
-        <div class="icn-sf">
-          <span class="line line-1"></span>
-          <span class="line line-2"></span>
+        <div className="icn-sf">
+          <span className="line line-1"></span>
+          <span className="line line-2"></span>
         </div>
-        <div class="loader"></div>
+        <div className="loader"></div>
       </button>
     </div>
   );
