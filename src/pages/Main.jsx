@@ -1,12 +1,14 @@
 import { Box, createTheme, ThemeProvider } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CardContainer from "../components/Cards/container/CardContainer";
 import TopBar from "../components/TopBar/TopBar";
-import pelisData from "../pelis.json";
+/* import { pelisList } from "../api/peticiones"; */
 import { globalsColors } from "../styles/GlobalStyles";
 //redux
 import { connect } from "react-redux";
 import FabCustom from "../components/FabCustom/FabCustom";
+import axios from 'axios'
+import { url_base } from "../api/env";
 
 const theme = createTheme({
   palette: {
@@ -21,8 +23,16 @@ const theme = createTheme({
 });
 
 const Main = (props) => {
-  const claves = Object.keys(pelisData);
-  console.log(props.pelis);
+  const [pelisApi, setPelisApi] = useState([]);
+
+  useEffect(() => {
+    axios.get(`${url_base}pelis`)
+    .then((res) => {
+      setPelisApi(res.data)
+    })
+  }, []);
+
+  const claves = Object.keys(pelisApi);
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -39,7 +49,7 @@ const Main = (props) => {
           }}
         >
           {claves.map((item, key) => (
-            <CardContainer key={key} header={item} video={pelisData[item]} />
+            <CardContainer key={key} header={item} video={pelisApi[item]} />
           ))}
           <FabCustom />
         </Box>
