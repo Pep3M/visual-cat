@@ -12,3 +12,8 @@ export const setOpenModalCart = payload => ({
   type: 'SET_OPEN_MODAL_CART',
   payload,
 })
+
+export const delAllSelection = payload => ({
+  type: 'SET_DEL_ALL_SELECTION',
+  payload,
+})

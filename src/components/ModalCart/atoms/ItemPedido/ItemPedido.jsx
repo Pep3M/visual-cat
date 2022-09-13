@@ -13,8 +13,7 @@ import {
 import { connect } from "react-redux";
 
 const ItemPedido = (props) => {
-  const { index, nombre, precio, deletePeliSelection } =
-    props;
+  const { index, nombre, precio, deletePeliSelection } = props;
 
   const handleClose = (e) => {
     deletePeliSelection({
@@ -38,7 +37,7 @@ const ItemPedido = (props) => {
       <IconButton
         aria-label="Quitar"
         style={{
-          color: globalsColors.primary,
+          color: globalsColors.redPrimary,
           padding: 2,
           marginBottom: -3,
           marginRight: 10,

@@ -1,39 +1,55 @@
-import { Box } from "@material-ui/core";
+import { Box, createTheme, ThemeProvider } from "@material-ui/core";
 import React from "react";
 import CardContainer from "../components/Cards/container/CardContainer";
 import TopBar from "../components/TopBar/TopBar";
-import pelisData from '../pelis.json'
+import pelisData from "../pelis.json";
 import { globalsColors } from "../styles/GlobalStyles";
 //redux
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import FabCustom from "../components/FabCustom/FabCustom";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: globalsColors.primary,
+    },
+    secondary: {
+      main: globalsColors.redPrimary,
+    },
+  },
+  components: {},
+});
 
 const Main = (props) => {
   const claves = Object.keys(pelisData);
   console.log(props.pelis);
   return (
-    <Box
-      sx={{
-        width: "100%",
-        minHeight: "100vh",
-        backgroundColor: globalsColors.lightBasePrimary,
-      }}
-    >
-      <TopBar />
-      <Box sx={{
-        paddingBottom: 20,
-      }}>
-        {claves.map((item, key) => (
-          <CardContainer key={key} header={item} video={pelisData[item]} />
-        ))}
-        <FabCustom />
+    <ThemeProvider theme={theme}>
+      <Box
+        sx={{
+          width: "100%",
+          minHeight: "100vh",
+          backgroundColor: globalsColors.lightBasePrimary,
+        }}
+      >
+        <TopBar />
+        <Box
+          sx={{
+            paddingBottom: 20,
+          }}
+        >
+          {claves.map((item, key) => (
+            <CardContainer key={key} header={item} video={pelisData[item]} />
+          ))}
+          <FabCustom />
+        </Box>
       </Box>
-    </Box>
+    </ThemeProvider>
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pelis: state.pelis,
-})
+});
 
 export default connect(mapStateToProps, null)(Main);

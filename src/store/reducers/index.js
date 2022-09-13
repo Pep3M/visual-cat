@@ -14,11 +14,20 @@ const reducer = (state, action) => {
         ),
       };
 
-    case 'SET_OPEN_MODAL_CART':
+    case "SET_OPEN_MODAL_CART":
       return {
         ...state,
         openModalCart: action.payload,
-      }
+      };
+
+    case "SET_DEL_ALL_SELECTION":
+      return {
+        ...state,
+        pelis: [],
+        series: [],
+        novelas: [],
+        anime: [],
+      };
 
     default:
       return state;

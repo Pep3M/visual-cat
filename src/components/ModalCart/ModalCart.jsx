@@ -1,21 +1,28 @@
 import {
   Backdrop,
   Box,
+  Button,
   Divider,
   Fade,
+  IconButton,
   Modal,
   Typography,
+  useMediaQuery,
 } from "@material-ui/core";
+import { Close, Delete, Send } from "@mui/icons-material";
 import { Grid } from "@mui/material";
-import React, { useState } from "react";
+import { useTheme } from "@mui/system";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import { connect } from "react-redux";
-import { setOpenModalCart } from "../../store/actions";
+import { setOpenModalCart, delAllSelection } from "../../store/actions";
 import {
   globalsColors,
   neumorphismDivContainer,
   scrollBarStyle,
 } from "../../styles/GlobalStyles";
 import ItemPedido from "./atoms/ItemPedido/ItemPedido";
+import SecureModal from "./atoms/SecureModal/SecureModal";
 
 const style = {
   ...neumorphismDivContainer,
@@ -31,11 +38,30 @@ const style = {
 };
 
 const ModalCart = (props) => {
-  const { pelis, openState, setOpenModalCart } = props;
+  const { pelis, openState, setOpenModalCart, delAllSelection } = props;
+
+  const theme = useTheme();
+  const bp600down = useMediaQuery(theme.breakpoints.down(600));
+
+  const [openSecureClean, setOpenSecureClean] = useState(false);
 
   const handleClose = () => setOpenModalCart(false);
+  const handleAllClean = (e) => /* delAllSelection(null) */ {
+    console.log("abriendo secure");
+    setOpenSecureClean(true);
+  };
+  const handleCloseSecure = (e) => {
+    console.log("cerrando secure");
+    setOpenSecureClean(false);
+  };
 
   const total = pelis ? pelis.length * 3 : 0;
+
+  useEffect(() => {
+    if (total === 0) {
+      setOpenModalCart(false);
+    }
+  }, [total]);
 
   return (
     <Modal
@@ -74,7 +100,12 @@ const ModalCart = (props) => {
             }}
           >
             {pelis.map((item, i) => (
-              <ItemPedido key={i} index={i + 1} nombre={item.Nombre} precio={3} />
+              <ItemPedido
+                key={i}
+                index={i + 1}
+                nombre={item.Nombre}
+                precio={3}
+              />
             ))}
           </Box>
           <Box
@@ -101,9 +132,61 @@ const ModalCart = (props) => {
                 whiteSpace: "nowrap",
               }}
             >
-              {total ?? 0}{" "} CUP
+              {total ?? 0} CUP
             </Typography>
           </Box>
+          <Box
+            sx={{
+              marginTop: 40,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            {bp600down ? (
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleAllClean}
+              >
+                <Delete />
+              </Button>
+            ) : (
+              <Button
+                variant="outlined"
+                color="secondary"
+                startIcon={<Delete />}
+                onClick={handleAllClean}
+              >
+                Limpiar
+              </Button>
+            )}
+
+            {bp600down ? (
+              <Button variant="contained" color="primary">
+                <Send />
+              </Button>
+            ) : (
+              <Button variant="contained" color="primary" startIcon={<Send />}>
+                Enviar
+              </Button>
+            )}
+
+            <IconButton
+              variant="outlined"
+              color="primary"
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                margin: 2,
+              }}
+              onClick={handleClose}
+            >
+              <Close />
+            </IconButton>
+          </Box>
+
+          <SecureModal open={openSecureClean} active={handleCloseSecure} />
         </Box>
       </Fade>
     </Modal>
@@ -117,6 +200,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setOpenModalCart,
+  delAllSelection,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalCart);

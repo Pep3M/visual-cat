@@ -2,6 +2,7 @@ import { createStyles, makeStyles } from "@material-ui/core";
 
 export const globalsColors = {
   primary: 'rgb(25,118,210)',
+  redPrimary: '#ed1c24',
   primaryThin: 'rgba(25,118,210,0.2)',
   lightBasePrimary: '#e9f5ff',
   lightBaseThin: 'rgb(255,255,255,0.4)',
