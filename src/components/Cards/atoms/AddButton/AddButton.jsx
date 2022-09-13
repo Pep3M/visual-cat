@@ -1,21 +1,23 @@
 import "./addButon.css";
-import React from "react";
-import { useState } from "react";
+import { connect } from "react-redux";
+import { setPeliSelection, deletePeliSelection } from "../../../../store/actions";
 
 const AddButton = (props) => {
-  const { parentCallback } = props;
-  const [clicked, setClicked] = useState(false);
-  const [nombreClase, setNombreClase] = useState("sf-btn add");
+  const { nombre, img, pelis, setPeliSelection, deletePeliSelection} = props;
 
+  const isActive = pelis.some(peli => peli.Nombre === nombre)
+  
   const handleClicked = (e) => {
-    if (clicked) {
-      setNombreClase("sf-btn add");
-      parentCallback(false);
+    if (isActive) {
+      deletePeliSelection({
+        Nombre: nombre, 
+        Imagen: img
+      });
     } else {
-      setNombreClase("sf-btn added");
-      parentCallback(true);
+      setPeliSelection({
+        Nombre: nombre,
+      })
     }
-    setClicked(!clicked);
   };
 
   return (
@@ -30,7 +32,7 @@ const AddButton = (props) => {
         outlineWidth: 0,
       }}
     >
-      <button type="submit" className={nombreClase} onClick={handleClicked}>
+      <button type="submit" className={isActive ? "sf-btn added" : "sf-btn add"} onClick={handleClicked}>
         <div className="icn-sf">
           <span className="line line-1"></span>
           <span className="line line-2"></span>
@@ -41,4 +43,13 @@ const AddButton = (props) => {
   );
 };
 
-export default AddButton;
+const mapStoreToProps = (state) => ({
+  pelis: state.pelis,
+});
+
+const mapDispatchToProps = {
+  setPeliSelection,
+  deletePeliSelection,
+}
+
+export default connect(mapStoreToProps, mapDispatchToProps)(AddButton);

@@ -10,16 +10,17 @@ import { Skeleton } from "@mui/material";
 import { useRef, useEffect, useState } from "react";
 //use redux
 import { connect } from 'react-redux';
-import { setPeliSelection, deletePeliSelection } from "../../../../actions";
 
 const ItemCard = (props) => {
-  const { title, img, id, size, setPeliSelection, deletePeliSelection } = props;
+  const { title, img, id, size, pelis } = props;
   const sizeFinal = size ?? 150;
 
-  const [selected, setSelected] = useState(false);
+  const isActive = pelis.some(peli => peli.Nombre === title)
+
   const [showImg, setShowImg] = useState(false);
   const ref = useRef(null);
 
+  
   useEffect(() => {
     const observer = new window.IntersectionObserver((entries) => {
       const { isIntersecting } = entries[0];
@@ -29,22 +30,6 @@ const ItemCard = (props) => {
     });
     observer.observe(ref.current);
   }, [ref]);
-
-  const handleCallback = (childData) => {
-    console.log(childData);
-    setSelected(childData);
-    if (childData) {
-      setPeliSelection({
-        Nombre: title, 
-        Imagen: img
-      })
-    } else {
-      console.log(title);
-      deletePeliSelection({
-        Nombre: title,
-      })
-    }
-  };
 
   return (
     <Box
@@ -58,13 +43,13 @@ const ItemCard = (props) => {
         height: `${sizeFinal * 1.5}px`,
         minHeight: `${sizeFinal * 1.5}px`,
         margin: 10,
-        background: `linear-gradient(130deg, ${globalsColors.primaryThin} 0%, ${globalsColors.lightBaseThin} 100%)`,
+        background: `linear-gradient(130deg, ${globalsColors.primaryThin } 0%, ${globalsColors.lightBaseThin} 100%)`,
         overflow: "hidden",
         position: "relative",
         transition: "100ms",
       }}
     >
-      <AddButton parentCallback={handleCallback} />
+      <AddButton nombre={title} img={img}/>
       {/* <Link to={"/movies/" + id}> */}
       {showImg ? (
         <div className="imagen_card">
@@ -89,7 +74,7 @@ const ItemCard = (props) => {
           width: "100%",
           padding: "8px",
           color: "white",
-          backgroundImage: `linear-gradient(180deg, ${globalsColors.primaryThin} 1%, ${globalsColors.primary} 100%)`,
+          backgroundImage: `linear-gradient(180deg, ${globalsColors.primaryThin} 1%, ${isActive ? '#45bc8e' : globalsColors.primary} 100%)`,
           backdropFilter: "blur(3px)",
           position: "absolute",
           bottom: 0,
@@ -101,9 +86,9 @@ const ItemCard = (props) => {
   );
 };
 
-const mapDispatchToProps = {
-  setPeliSelection,
-  deletePeliSelection,
-}
+const mapStoreToProps = (state) => ({
+  pelis: state.pelis,
+});
 
-export default connect(null, mapDispatchToProps)(ItemCard);
+
+export default connect(mapStoreToProps, null)(ItemCard);

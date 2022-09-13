@@ -14,6 +14,12 @@ const reducer = (state, action) => {
         ),
       };
 
+    case 'SET_OPEN_MODAL_CART':
+      return {
+        ...state,
+        openModalCart: action.payload,
+      }
+
     default:
       return state;
   }

@@ -6,6 +6,7 @@ import pelisData from '../pelis.json'
 import { globalsColors } from "../styles/GlobalStyles";
 //redux
 import { connect } from 'react-redux';
+import FabCustom from "../components/FabCustom/FabCustom";
 
 const Main = (props) => {
   const claves = Object.keys(pelisData);
@@ -20,13 +21,12 @@ const Main = (props) => {
     >
       <TopBar />
       <Box sx={{
+        paddingBottom: 20,
       }}>
-        {/* Como prueba, para visualizar */}
-        <CardContainer header={'Seleccion'} video={props.pelis} />
-        
         {claves.map((item, key) => (
           <CardContainer key={key} header={item} video={pelisData[item]} />
         ))}
+        <FabCustom />
       </Box>
     </Box>
   );

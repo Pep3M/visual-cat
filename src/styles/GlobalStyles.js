@@ -1,10 +1,10 @@
 import { createStyles, makeStyles } from "@material-ui/core";
 
 export const globalsColors = {
-  primary: 'RGB(25,118,210)',
-  primaryThin: 'RGBA(25,118,210,0.2)',
+  primary: 'rgb(25,118,210)',
+  primaryThin: 'rgba(25,118,210,0.2)',
   lightBasePrimary: '#e9f5ff',
-  lightBaseThin: 'RGBA(255,255,255,0.4)',
+  lightBaseThin: 'rgb(255,255,255,0.4)',
   lightBaseSecondary: '#fcfcfc',
   lightBaseExtra: '#eaeaea',
 
@@ -50,7 +50,23 @@ export const neumorphismDivContainer = {
   borderRadius: '15px',
   backdropFilter: 'blur(20px)',
   zIndex: 1,
-  boxShadow:  `${deepN * 0.5}px ${deepN * 0.5}px ${deepN * 3}px #dedede`,
+  boxShadow:  `${deepN * 0.5}px ${deepN * 0.5}px ${deepN * 3}px RGB(200,200,200,0.5)`,
 
 }
 export default GlobalStyles;
+
+export const scrollBarStyle = {
+  '&::-webkit-scrollbar': {
+    width: '.3em',
+ },
+    
+ '&::-webkit-scrollbar-track': {
+    backgroundColor: globalsColors.lightBaseExtra,
+    
+    margin: 10,
+ },
+    
+ '&::-webkit-scrollbar-thumb': {
+   backgroundColor: globalsColors.primaryThin,
+ }
+}

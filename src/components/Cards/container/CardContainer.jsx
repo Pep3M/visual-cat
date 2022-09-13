@@ -10,6 +10,7 @@ const CardContainer = (props) => {
       sx={{
         ...neumorphismDivContainer,
         margin: 20,
+        mb: 0,
         padding: 10,
       }}
     >
