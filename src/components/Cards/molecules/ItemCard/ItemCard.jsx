@@ -10,6 +10,8 @@ import { Skeleton } from "@mui/material";
 import { useRef, useEffect, useState } from "react";
 //use redux
 import { connect } from 'react-redux';
+import axios from "axios";
+import { url_base } from "../../../../api/env";
 
 const ItemCard = (props) => {
   const { title, img, id, size, pelis } = props;
@@ -20,6 +22,12 @@ const ItemCard = (props) => {
   const [showImg, setShowImg] = useState(false);
   const ref = useRef(null);
 
+  /* const [urlImg, setUrlImg] = useState('');
+  
+  useEffect(() => {
+    axios.get(url_base + 'pelisImg')
+    .then(res => setUrlImg(res.data))
+  }, []); */
   
   useEffect(() => {
     const observer = new window.IntersectionObserver((entries) => {
@@ -61,7 +69,7 @@ const ItemCard = (props) => {
               height={"100%"}
             />
           ) : (
-            <img src={"./pelis/imgs/" + img} alt="" />
+            <img src={url_base + 'pelisImg?name=' + img} alt="" />
           )}
         </div>
       ) : (
