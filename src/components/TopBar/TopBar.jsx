@@ -18,6 +18,8 @@ import ListItemButton from "@mui/material/ListItemButton";
 import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { globalsColors } from "../../styles/GlobalStyles";
+import { Settings } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 const navItems = ["Filmes", "Series", "Novelas", "Anime"];
@@ -56,7 +58,9 @@ const TopBar = (props) => {
       <List>
         {navItems.map((item) => (
           <ListItem key={item}>
-            <ListItemButton sx={{ textAlign: "center", color: globalsColors.primary  }}>
+            <ListItemButton
+              sx={{ textAlign: "center", color: globalsColors.primary }}
+            >
               <ListItemText primary={item} />
             </ListItemButton>
           </ListItem>
@@ -89,7 +93,7 @@ const TopBar = (props) => {
         <Toolbar
           style={{
             display: "flex",
-            justifyContent: "space-between"
+            justifyContent: "space-between",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -121,6 +125,11 @@ const TopBar = (props) => {
               </Button>
             ))}
           </Box>
+          <Link to={"/manager"}>
+            <IconButton color="primary">
+              <Settings />
+            </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
       <Box component="nav">
