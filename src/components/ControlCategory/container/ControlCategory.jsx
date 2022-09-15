@@ -12,24 +12,35 @@ import {
 } from "@material-ui/core";
 import { CreateNewFolderOutlined, Folder } from "@mui/icons-material";
 import { ListItemButton } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import {
   globalsColors,
   neumorphismDivContainer,
+  scrollBarStyle,
 } from "../../../styles/GlobalStyles";
+import ModalAddCategory from "../../ModalAddCategory/ModalAddCategory";
 import ItemControlCategory from "../molecules/ItemControlCategory";
 
 const ControlCategory = (props) => {
-  const { data, name } = props;
+  const { data, name, callbackUpdate } = props;
   const categories = Object.keys(data);
+
+  const [openAddCategory, setOpenAddCategory] = useState(false);
 
   const totalData = () => {
     var counter = 0;
-    categories.map((category, key) => {
-      counter = counter + data[category].length;
-    });
+    categories.map(
+      (category) => (counter = counter + data[category].length)
+    );
     return counter;
   };
+
+  const handlerCallback = dataChild => {
+    setOpenAddCategory(dataChild)
+    callbackUpdate(dataChild)
+  }
+
+  callbackUpdate(false)
 
   return (
     <Box
@@ -91,7 +102,7 @@ const ControlCategory = (props) => {
                 style={{ marginLeft: 10 }}
               />
               <ListItemIcon>
-                <IconButton>
+                <IconButton onClick={() => setOpenAddCategory(true)}>
                   <CreateNewFolderOutlined />
                 </IconButton>
               </ListItemIcon>
@@ -100,7 +111,8 @@ const ControlCategory = (props) => {
         </Box>
       </Box>
       <Box
-        sx={{
+        style={{
+          ...scrollBarStyle,
           paddingTop: "130px",
           height: "calc(100% - 130px)",
           overflow: "auto",
@@ -123,6 +135,7 @@ const ControlCategory = (props) => {
           ))}
         </List>
       </Box>
+      <ModalAddCategory name={name} open={openAddCategory} closeCallback={handlerCallback}/>
     </Box>
   );
 };
