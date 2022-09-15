@@ -1,12 +1,16 @@
 import {
   Avatar,
   Box,
+  Divider,
+  IconButton,
   List,
+  ListItem,
   ListItemAvatar,
+  ListItemIcon,
   ListItemText,
   Typography,
 } from "@material-ui/core";
-import { Folder } from "@mui/icons-material";
+import { CreateNewFolderOutlined, Folder } from "@mui/icons-material";
 import { ListItemButton } from "@mui/material";
 import React from "react";
 import {
@@ -18,6 +22,14 @@ import ItemControlCategory from "../molecules/ItemControlCategory";
 const ControlCategory = (props) => {
   const { data, name } = props;
   const categories = Object.keys(data);
+
+  const totalData = () => {
+    var counter = 0;
+    categories.map((category, key) => {
+      counter = counter + data[category].length;
+    });
+    return counter;
+  };
 
   return (
     <Box
@@ -36,7 +48,7 @@ const ControlCategory = (props) => {
     >
       <Box
         style={{
-          backgroundColor: 'RGB(243,248,252,0.85)',
+          backgroundColor: "RGB(243,248,252,0.85)",
           position: "fixed",
           zIndex: 10,
           top: 0,
@@ -52,18 +64,45 @@ const ControlCategory = (props) => {
           color="primary"
           style={{
             width: "100%",
-            height: "50px",
             textAlign: "center",
             marginBlock: 20,
+            marginBottom: 10,
           }}
         >
           {name}
         </Typography>
+        <Divider style={{ marginInline: 10 }} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            width: "100%",
+          }}
+        >
+          <List style={{ width: "100%", paddingBlock: 0 }}>
+            <ListItem>
+              <ListItemText
+                primary={
+                  categories.length > 1
+                    ? `${categories.length} categorias`
+                    : `1 categoria`
+                }
+                secondary={`${totalData()} ${name.toLowerCase()}`}
+                style={{ marginLeft: 10 }}
+              />
+              <ListItemIcon>
+                <IconButton>
+                  <CreateNewFolderOutlined />
+                </IconButton>
+              </ListItemIcon>
+            </ListItem>
+          </List>
+        </Box>
       </Box>
       <Box
         sx={{
-          paddingTop: "80px",
-          height: "calc(100% - 80px)",
+          paddingTop: "130px",
+          height: "calc(100% - 130px)",
           overflow: "auto",
           paddingBottom: 10,
         }}

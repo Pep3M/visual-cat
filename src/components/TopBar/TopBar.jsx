@@ -127,8 +127,8 @@ const TopBar = (props) => {
             </Typography>
           </Box>
           <Box sx={{ display: !bp600up ? "none" : "block" }}>
-            {navItems.map((item) => (
-              <Link
+            {navItems.map((item, key) => (
+              <Link key={key}
                 to={`/${item.toLowerCase()}`}
                 style={{ textDecoration: "none" }}
               >
