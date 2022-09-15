@@ -44,25 +44,37 @@ const TopBar = (props) => {
         bgcolor: globalsColors.lightBaseThin,
       }}
     >
-      <Typography
-        variant="h6"
+      <Link
+        to={"/"}
         style={{
-          color: globalsColors.primary,
-          backgroundColor: globalsColors.lightBaseSecondary,
-          padding: 20,
+          textDecoration: "none",
         }}
       >
-        Visual<strong>Cat</strong>
-      </Typography>
+        <Typography
+          variant="h6"
+          style={{
+            color: globalsColors.primary,
+            backgroundColor: globalsColors.lightBaseSecondary,
+            padding: 20,
+          }}
+        >
+          Visual<strong>Cat</strong>
+        </Typography>
+      </Link>
       <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem key={item}>
-            <ListItemButton
-              sx={{ textAlign: "center", color: globalsColors.primary }}
+            <Link
+              to={`/${item.toLowerCase()}`}
+              style={{ textDecoration: "none" }}
             >
-              <ListItemText primary={item} />
-            </ListItemButton>
+              <ListItemButton
+                sx={{ textAlign: "center", color: globalsColors.primary }}
+              >
+                <ListItemText primary={item} />
+              </ListItemButton>
+            </Link>
           </ListItem>
         ))}
       </List>
@@ -116,13 +128,18 @@ const TopBar = (props) => {
           </Box>
           <Box sx={{ display: !bp600up ? "none" : "block" }}>
             {navItems.map((item) => (
-              <Button
-                key={item}
-                variant="text"
-                style={{ color: globalsColors.primary }}
+              <Link
+                to={`/${item.toLowerCase()}`}
+                style={{ textDecoration: "none" }}
               >
-                {item}
-              </Button>
+                <Button
+                  key={item}
+                  variant="text"
+                  style={{ color: globalsColors.primary }}
+                >
+                  {item}
+                </Button>
+              </Link>
             ))}
           </Box>
           <Link to={"/manager"}>

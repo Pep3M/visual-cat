@@ -7,6 +7,7 @@ const RootNavigator = () => {
     <>
       <Routes>
         <Route path="/" element={<Main />} />
+        <Route path="/filmes" element={<Main />} />
         <Route path="/manager" element={<Manager />} />
       </Routes>
     </>
