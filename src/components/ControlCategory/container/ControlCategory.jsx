@@ -1,17 +1,14 @@
 import {
-  Avatar,
   Box,
   Divider,
   IconButton,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemIcon,
   ListItemText,
   Typography,
 } from "@material-ui/core";
-import { CreateNewFolderOutlined, Folder } from "@mui/icons-material";
-import { ListItemButton } from "@mui/material";
+import { CreateNewFolderOutlined } from "@mui/icons-material";
 import React, { useState } from "react";
 import {
   globalsColors,
@@ -22,26 +19,29 @@ import ModalAddCategory from "../../ModalAddCategory/ModalAddCategory";
 import ItemControlCategory from "../molecules/ItemControlCategory";
 
 const ControlCategory = (props) => {
-  const { data, name, callbackUpdate } = props;
-  const categories = Object.keys(data);
+  const { data, name } = props;
+  const [dataState, setDataState] = useState(data);
+  const categories = Object.keys(dataState);
 
   const [openAddCategory, setOpenAddCategory] = useState(false);
 
   const totalData = () => {
     var counter = 0;
     categories.map(
-      (category) => (counter = counter + data[category].length)
+      (category) => (counter = counter + dataState[category].length)
     );
     return counter;
   };
 
-  const handlerCallback = dataChild => {
-    setOpenAddCategory(dataChild)
-    callbackUpdate(dataChild)
-  }
-
-  callbackUpdate(false)
-
+  const handlerCallback = (dataChild) => {
+    setOpenAddCategory(dataChild);
+  };
+  const handlerUpdateData = (dataChild) => {
+    setDataState({
+      ...dataState,
+      [dataChild.name]: dataChild.data,
+    });
+  };
   return (
     <Box
       sx={{
@@ -130,12 +130,17 @@ const ControlCategory = (props) => {
             <ItemControlCategory
               key={key}
               category={category}
-              data={data[category]}
+              data={dataState[category]}
             />
           ))}
         </List>
       </Box>
-      <ModalAddCategory name={name} open={openAddCategory} closeCallback={handlerCallback}/>
+      <ModalAddCategory
+        name={name}
+        open={openAddCategory}
+        closeCallback={handlerCallback}
+        updateData={handlerUpdateData}
+      />
     </Box>
   );
 };

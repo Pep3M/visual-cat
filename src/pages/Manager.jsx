@@ -20,7 +20,6 @@ const theme = createTheme({
 
 const Manager = () => {
   const [allData, setAllData] = useState({});
-  const update = useRef(false);
   const tipos = Object.keys(allData);
 
   useEffect(() => {
@@ -34,25 +33,6 @@ const Manager = () => {
       })
     );
   }, []);
-
-  useEffect(() => {
-    if (update) {
-      axios.get(url_base + "pelis").then((res) =>
-        setAllData({
-          ...allData,
-          Filmes: res.data,
-          Series: res.data,
-          Novelas: res.data,
-          Anime: res.data,
-        })
-      );
-      update.current = false;
-    }
-  }, [update.current]);
-
-  const handlerCallbackUpdate = (dataChild) => {
-    update.current = dataChild;
-  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -79,7 +59,6 @@ const Manager = () => {
               key={key}
               data={allData[tipo]}
               name={tipo}
-              callbackUpdate={handlerCallbackUpdate}
             />
           ))}
         </Box>
