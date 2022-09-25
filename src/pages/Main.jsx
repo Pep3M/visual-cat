@@ -13,7 +13,7 @@ import { globalsColors } from "../styles/GlobalStyles";
 import { connect } from "react-redux";
 import FabCustom from "../components/FabCustom/FabCustom";
 import axios from "axios";
-import { url_base } from "../api/env";
+import { url_base, url_base_local } from "../api/env";
 
 const theme = createTheme({
   palette: {
@@ -30,11 +30,17 @@ const theme = createTheme({
 const Main = (props) => {
   const [pelisApi, setPelisApi] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [showManager, setShowManager] = useState(false);
 
   useEffect(() => {
     axios.get(`${url_base}pelis`).then((res) => {
       setPelisApi(res.data);
       setLoaded(true);
+    });
+    axios.get(url_base_local).then((res) => {
+      if (res.status === 200) {
+        setShowManager(true);
+      }
     });
   }, []);
 
@@ -48,8 +54,8 @@ const Main = (props) => {
           backgroundColor: globalsColors.lightBasePrimary,
         }}
       >
-        <TopBar />
-        
+        <TopBar showManager={showManager} />
+
         {!loaded ? (
           <LinearProgress color="primary" />
         ) : (

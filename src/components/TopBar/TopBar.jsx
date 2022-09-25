@@ -26,6 +26,7 @@ const drawerWidth = 240;
 const navItems = ["Filmes"];
 
 const TopBar = (props) => {
+  const { showManager } = props;
   const theme = useTheme();
   const bp600up = useMediaQuery(theme.breakpoints.up(600));
 
@@ -106,7 +107,9 @@ const TopBar = (props) => {
         <Toolbar
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            position: "relative",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -125,16 +128,14 @@ const TopBar = (props) => {
                 textDecoration: "none",
               }}
             >
-              <Typography
-                variant="h6"
-                component="div"
+              <img
+                src={process.env.PUBLIC_URL + "/logo_to2digital.png"}
+                alt=""
                 style={{
-                  flexGrow: 1,
-                  display: /* !bp600up ? "none" : */ "block",
+                  marginTop: 5,
+                  height: 20,
                 }}
-              >
-                {APP_NAME}
-              </Typography>
+              />
             </Link>
           </Box>
           {/* <Box sx={{ display: !bp600up ? "none" : "block" }}>
@@ -153,11 +154,22 @@ const TopBar = (props) => {
               </Link>
             ))}
           </Box> */}
-          <Link to={"/manager"}>
-            <IconButton color="primary">
-              <Settings />
-            </IconButton>
-          </Link>
+          {showManager ? (
+            <Link to={"/manager"}>
+              <IconButton
+                color="primary"
+                style={{
+                  position: "absolute",
+                  top: bp600up ? 9 : 4,
+                  right: 4,
+                }}
+              >
+                <Settings />
+              </IconButton>
+            </Link>
+          ) : (
+            <></>
+          )}
         </Toolbar>
       </AppBar>
       {/* <Box component="nav">
