@@ -20,9 +20,10 @@ import { useTheme } from "@mui/material/styles";
 import { globalsColors } from "../../styles/GlobalStyles";
 import { Settings } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { APP_NAME } from "../../GlobalConstants";
 
 const drawerWidth = 240;
-const navItems = ["Filmes", "Series", "Novelas", "Anime"];
+const navItems = ["Filmes"];
 
 const TopBar = (props) => {
   const theme = useTheme();
@@ -109,7 +110,7 @@ const TopBar = (props) => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton
+            {/* <IconButton
               color="inherit"
               aria-label="open drawer"
               edge="start"
@@ -117,16 +118,26 @@ const TopBar = (props) => {
               style={{ mr: 2, display: bp600up ? "none" : "block" }}
             >
               <MenuIcon />
-            </IconButton>
-            <Typography
-              variant="h6"
-              component="div"
-              style={{ flexGrow: 1, display: !bp600up ? "none" : "block" }}
+            </IconButton> */}
+            <Link
+              to={"/"}
+              style={{
+                textDecoration: "none",
+              }}
             >
-              VisualCat
-            </Typography>
+              <Typography
+                variant="h6"
+                component="div"
+                style={{
+                  flexGrow: 1,
+                  display: /* !bp600up ? "none" : */ "block",
+                }}
+              >
+                {APP_NAME}
+              </Typography>
+            </Link>
           </Box>
-          <Box sx={{ display: !bp600up ? "none" : "block" }}>
+          {/* <Box sx={{ display: !bp600up ? "none" : "block" }}>
             {navItems.map((item, key) => (
               <Link key={key}
                 to={`/${item.toLowerCase()}`}
@@ -141,7 +152,7 @@ const TopBar = (props) => {
                 </Button>
               </Link>
             ))}
-          </Box>
+          </Box> */}
           <Link to={"/manager"}>
             <IconButton color="primary">
               <Settings />
@@ -149,7 +160,7 @@ const TopBar = (props) => {
           </Link>
         </Toolbar>
       </AppBar>
-      <Box component="nav">
+      {/* <Box component="nav">
         <Drawer
           container={container}
           variant="temporary"
@@ -168,7 +179,7 @@ const TopBar = (props) => {
         >
           {drawer}
         </Drawer>
-      </Box>
+      </Box> */}
       <Toolbar />
     </Box>
   );

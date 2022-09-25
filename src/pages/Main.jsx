@@ -1,4 +1,9 @@
-import { Box, createTheme, ThemeProvider } from "@material-ui/core";
+import {
+  Box,
+  createTheme,
+  LinearProgress,
+  ThemeProvider,
+} from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import CardContainer from "../components/Cards/container/CardContainer";
 import TopBar from "../components/TopBar/TopBar";
@@ -7,7 +12,7 @@ import { globalsColors } from "../styles/GlobalStyles";
 //redux
 import { connect } from "react-redux";
 import FabCustom from "../components/FabCustom/FabCustom";
-import axios from 'axios'
+import axios from "axios";
 import { url_base } from "../api/env";
 
 const theme = createTheme({
@@ -24,12 +29,13 @@ const theme = createTheme({
 
 const Main = (props) => {
   const [pelisApi, setPelisApi] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    axios.get(`${url_base}pelis`)
-    .then((res) => {
-      setPelisApi(res.data)
-    })
+    axios.get(`${url_base}pelis`).then((res) => {
+      setPelisApi(res.data);
+      setLoaded(true);
+    });
   }, []);
 
   const claves = Object.keys(pelisApi);
@@ -43,16 +49,21 @@ const Main = (props) => {
         }}
       >
         <TopBar />
-        <Box
-          sx={{
-            paddingBottom: 20,
-          }}
-        >
-          {claves.map((item, key) => (
-            <CardContainer key={key} header={item} video={pelisApi[item]} />
-          ))}
-          <FabCustom />
-        </Box>
+        
+        {!loaded ? (
+          <LinearProgress color="primary" />
+        ) : (
+          <Box
+            sx={{
+              paddingBottom: 20,
+            }}
+          >
+            {claves.map((item, key) => (
+              <CardContainer key={key} header={item} video={pelisApi[item]} />
+            ))}
+            <FabCustom />
+          </Box>
+        )}
       </Box>
     </ThemeProvider>
   );

@@ -1,4 +1,5 @@
 import { Box, createTheme, ThemeProvider } from "@material-ui/core";
+import { LinearProgress } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { url_base } from "../api/env";
@@ -20,18 +21,17 @@ const theme = createTheme({
 
 const Manager = () => {
   const [allData, setAllData] = useState({});
+  const [loaded, setLoaded] = useState(false);
   const tipos = Object.keys(allData);
 
   useEffect(() => {
-    axios.get(url_base + "pelis").then((res) =>
+    axios.get(url_base + "pelis").then((res) => {
       setAllData({
         ...allData,
         Filmes: res.data,
-        Series: res.data,
-        Novelas: res.data,
-        Anime: res.data,
-      })
-    );
+      });
+      setLoaded(true);
+    });
   }, []);
 
   return (
@@ -44,24 +44,24 @@ const Manager = () => {
         }}
       >
         <TopBar />
-        <Box
-          className="body_manager"
-          style={{
-            width: "100%",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            paddingBottom: 20,
-          }}
-        >
-          {tipos.map((tipo, key) => (
-            <ControlCategory
-              key={key}
-              data={allData[tipo]}
-              name={tipo}
-            />
-          ))}
-        </Box>
+        {!loaded ? (
+          <LinearProgress color="primary" />
+        ) : (
+          <Box
+            className="body_manager"
+            style={{
+              width: "100%",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+              paddingBottom: 20,
+            }}
+          >
+            {tipos.map((tipo, key) => (
+              <ControlCategory key={key} data={allData[tipo]} name={tipo} />
+            ))}
+          </Box>
+        )}
       </Box>
     </ThemeProvider>
   );
