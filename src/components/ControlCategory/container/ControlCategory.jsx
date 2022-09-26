@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Divider,
   IconButton,
   List,
@@ -33,6 +34,11 @@ const ControlCategory = (props) => {
     return counter;
   };
 
+  const [totals, setTotals] = useState({
+    category: categories.length,
+    item: totalData(),
+  })
+
   const handlerCallback = (dataChild) => {
     setOpenAddCategory(dataChild);
   };
@@ -42,6 +48,13 @@ const ControlCategory = (props) => {
       [dataChild.name]: dataChild.data,
     });
   };
+  const handlerTotals = (callback) => {
+    setTotals({
+      category: totals.category - callback.category,
+      item: totals.item - callback.item
+    })
+  }
+    
   return (
     <Box
       sx={{
@@ -94,17 +107,21 @@ const ControlCategory = (props) => {
             <ListItem>
               <ListItemText
                 primary={
-                  categories.length > 1
-                    ? `${categories.length} categorias`
+                  totals.category > 1
+                    ? `${totals.category} categorias`
                     : `1 categoria`
                 }
-                secondary={`${totalData()} ${name.toLowerCase()}`}
+                secondary={`${totals.item} ${name.toLowerCase()}`}
                 style={{ marginLeft: 10 }}
               />
               <ListItemIcon>
-                <IconButton onClick={() => setOpenAddCategory(true)}>
-                  <CreateNewFolderOutlined />
-                </IconButton>
+                <Button
+                  variant="outlined"
+                  startIcon={<CreateNewFolderOutlined />}
+                  onClick={() => setOpenAddCategory(true)}
+                >
+                  Nueva categoria
+                </Button>
               </ListItemIcon>
             </ListItem>
           </List>
@@ -131,6 +148,7 @@ const ControlCategory = (props) => {
               key={key}
               category={category}
               data={dataState[category]}
+              totalsSus={handlerTotals}
             />
           ))}
         </List>

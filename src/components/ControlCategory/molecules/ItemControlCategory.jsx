@@ -23,11 +23,22 @@ import {
   Movie,
 } from "@mui/icons-material";
 import { useRef } from "react";
+import DelConfirmation from "../atoms/DelConfirmation";
+
+const emptyActions = {
+  delConfirmation: false,
+  name: "",
+  type: "",
+  data: {},
+};
 
 const ItemControlCategory = (props) => {
-  const { category, data } = props;
+  const { category, data, totalsSus } = props;
+  const [newData, setNewData] = useState(data);
 
   const [open, setOpen] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const [stateActions, setStateActions] = useState(emptyActions);
 
   //Menu Categories
   const [anchorEl, setAnchorEl] = useState(null);
@@ -46,6 +57,11 @@ const ItemControlCategory = (props) => {
   const handlerMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleDelCategory = (callback) => {
+    if (callback) {
+      setVisible(false);
+    }
+  };
 
   //Handlers Menu Items
   const handlerMenuOpenItem = (e, name) => {
@@ -58,6 +74,9 @@ const ItemControlCategory = (props) => {
     setAnchorElItem(null);
     dataItem.current = {};
   };
+  const handleDelItem = (callback) => {
+    setNewData(newData.filter((item) => item.Nombre !== callback.name));
+  };
 
   //Actions Menu Categories
   const menuAdd = (e, name) => {
@@ -69,7 +88,11 @@ const ItemControlCategory = (props) => {
     handlerMenuClose();
   };
   const menuDel = (e, name) => {
-    console.log("del", name);
+    setStateActions({
+      delConfirmation: true,
+      name,
+      type: "Categoria",
+    });
     handlerMenuClose();
   };
 
@@ -78,12 +101,24 @@ const ItemControlCategory = (props) => {
     console.log("edit item", dataItem.current.name);
     handlerMenuCloseItem();
   };
-  const itemDel = (e, name) => {
-    console.log("del item", dataItem.current.name);
+  const itemDel = (e) => {
+    setStateActions({
+      delConfirmation: true,
+      name: dataItem.current.name,
+      type: "Filme",
+    });
     handlerMenuCloseItem();
   };
 
-  return (
+  //totales a restar
+  const handleTotals = (callback) => {
+    totalsSus({
+      category: callback.category,
+      item: callback.item
+    })
+  }
+  
+  return visible ? (
     <>
       <Box style={{ position: "relative" }}>
         <ListItemButton onClick={() => setOpen(!open)}>
@@ -157,10 +192,21 @@ const ItemControlCategory = (props) => {
             Eliminar
           </MenuItem>
         </Menu>
+
+        <DelConfirmation
+          open={stateActions.delConfirmation}
+          name={stateActions.name}
+          type={stateActions.type}
+          data={data}
+          delCategory={handleDelCategory}
+          delItem={handleDelItem}
+          onClose={(callback) => setStateActions(emptyActions)}
+          totalsSus={handleTotals}
+        />
       </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {data.map((item, key) => (
+          {newData.map((item, key) => (
             <ListItemButton
               key={key}
               id={"item-button"}
@@ -188,6 +234,7 @@ const ItemControlCategory = (props) => {
               </ListItemText>
             </ListItemButton>
           ))}
+
           <Menu
             id="item-menu"
             anchorEl={anchorElItem}
@@ -213,6 +260,8 @@ const ItemControlCategory = (props) => {
         </List>
       </Collapse>
     </>
+  ) : (
+    <></>
   );
 };
 
