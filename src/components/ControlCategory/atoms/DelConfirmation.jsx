@@ -6,6 +6,7 @@ import {
   Fade,
   Modal,
   Typography,
+  useMediaQuery,
 } from "@material-ui/core";
 import { Cancel, Close, Delete } from "@mui/icons-material";
 import { Grid } from "@mui/material";
@@ -23,15 +24,18 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  minWidth: "60%",
-  maxWidth: "75%",
+  minWidth: 280,
   maxHeight: "80%",
   backgroundColor: globalsColors.lightBasePrimary,
   p: 4,
 };
 
 const DelConfirmation = (props) => {
-  const { open, type, data, name, delCategory, delItem, onClose, totalsSus } = props;
+  const { open, type, data, name, delCategory, delItem, onClose, totalsSus } =
+    props;
+
+  const theme = useTheme();
+  const bp600down = useMediaQuery(theme.breakpoints.down(600));
 
   const handleAction = (e) => {
     //console.log("Accion:", name, e);
@@ -39,17 +43,17 @@ const DelConfirmation = (props) => {
       delCategory(true);
       totalsSus({
         category: 1,
-        item: data.length,
-      })
+        item: data.videos.length,
+      });
     } else {
       delItem({
         name,
-        visible: false
+        visible: false,
       });
       totalsSus({
         category: 0,
         item: 1,
-      })
+      });
     }
     onClose(true);
   };
@@ -71,7 +75,10 @@ const DelConfirmation = (props) => {
       }}
     >
       <Fade in={open}>
-        <Box sx={style}>
+        <Box sx={{
+          ...style,
+          width: bp600down ? '60%' : 400,
+        }}>
           <Typography
             variant="h5"
             style={{
@@ -112,7 +119,7 @@ const DelConfirmation = (props) => {
               startIcon={<Delete />}
               onClick={handleAction}
             >
-              Limpiar
+              Eliminar
             </Button>
           </Box>
         </Box>

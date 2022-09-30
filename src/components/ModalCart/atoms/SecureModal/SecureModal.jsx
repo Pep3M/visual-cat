@@ -29,8 +29,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  minWidth: "60%",
-  maxWidth: "75%",
+  minWidth: 280,
   maxHeight: "80%",
   backgroundColor: globalsColors.lightBasePrimary,
   p: 4,
@@ -57,7 +56,7 @@ const SecureModal = (props) => {
       }}
     >
       <Fade in={open}>
-        <Box sx={style}>
+        <Box sx={{...style, width: bp600down ? '60%' : 400}}>
           <Typography
             variant="h5"
             style={{

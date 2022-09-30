@@ -7,13 +7,16 @@ import {
   Divider,
   IconButton,
   List,
+  ListItem,
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
+  TextField,
   Typography,
 } from "@material-ui/core";
 import {
   Add,
+  Cancel,
   Delete,
   Edit,
   ExpandLess,
@@ -21,11 +24,14 @@ import {
   Folder,
   MoreVert,
   Movie,
+  Save,
 } from "@mui/icons-material";
 import { useRef } from "react";
 import DelConfirmation from "../atoms/DelConfirmation";
+import EditModal from "../atoms/EditModal";
 
 const emptyActions = {
+  edit: false,
   delConfirmation: false,
   name: "",
   type: "",
@@ -39,6 +45,8 @@ const ItemControlCategory = (props) => {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(true);
   const [stateActions, setStateActions] = useState(emptyActions);
+  const [editItem, setEditItem] = useState("");
+  const valueEditItem = useRef("");
 
   //Menu Categories
   const [anchorEl, setAnchorEl] = useState(null);
@@ -57,6 +65,11 @@ const ItemControlCategory = (props) => {
   const handlerMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleEdCategory = (callback) => {
+    if (callback) {
+      console.log("handleEdCategory", callback);
+    }
+  };
   const handleDelCategory = (callback) => {
     if (callback) {
       setVisible(false);
@@ -74,8 +87,31 @@ const ItemControlCategory = (props) => {
     setAnchorElItem(null);
     dataItem.current = {};
   };
+  const handleEdItem = (e, id) => {
+    let videos = [];
+
+    newData.videos.forEach((item) => {
+      if (item.id === id) {
+        videos.push({
+          ...item,
+          Nombre: valueEditItem.current,
+        });
+      } else {
+        videos.push({ ...item });
+      }
+    });
+
+    setNewData({...newData, videos});
+
+    setEditItem("");
+    valueEditItem.current = "";
+  };
   const handleDelItem = (callback) => {
-    setNewData(newData.filter((item) => item.Nombre !== callback.name));
+    const videos = newData.videos.filter((item) => item.Nombre !== callback.name);
+    setNewData({
+      ...newData,
+      videos,
+    })
   };
 
   //Actions Menu Categories
@@ -84,7 +120,11 @@ const ItemControlCategory = (props) => {
     handlerMenuClose();
   };
   const menuEdit = (e, name) => {
-    console.log("edit", name);
+    setStateActions({
+      edit: true,
+      name,
+      type: "Categoria",
+    });
     handlerMenuClose();
   };
   const menuDel = (e, name) => {
@@ -98,7 +138,9 @@ const ItemControlCategory = (props) => {
 
   //Actions Menu Items
   const itemEdit = (e) => {
-    console.log("edit item", dataItem.current.name);
+    console.log(dataItem.current.name);
+    setEditItem(dataItem.current.name);
+    valueEditItem.current = dataItem.current.name;
     handlerMenuCloseItem();
   };
   const itemDel = (e) => {
@@ -114,10 +156,10 @@ const ItemControlCategory = (props) => {
   const handleTotals = (callback) => {
     totalsSus({
       category: callback.category,
-      item: callback.item
-    })
-  }
-  
+      item: callback.item,
+    });
+  };
+
   return visible ? (
     <>
       <Box style={{ position: "relative" }}>
@@ -193,11 +235,19 @@ const ItemControlCategory = (props) => {
           </MenuItem>
         </Menu>
 
+        <EditModal
+          open={stateActions.edit}
+          name={stateActions.name}
+          type={stateActions.type}
+          data={newData}
+          edCategory={handleEdCategory}
+          onClose={(callback) => setStateActions(emptyActions)}
+        />
         <DelConfirmation
           open={stateActions.delConfirmation}
           name={stateActions.name}
           type={stateActions.type}
-          data={data}
+          data={newData}
           delCategory={handleDelCategory}
           delItem={handleDelItem}
           onClose={(callback) => setStateActions(emptyActions)}
@@ -206,34 +256,57 @@ const ItemControlCategory = (props) => {
       </Box>
       <Collapse in={open} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          {newData.map((item, key) => (
-            <ListItemButton
-              key={key}
-              id={"item-button"}
-              onClick={(e) => handlerMenuOpenItem(e, item.Nombre)}
-              aria-controls={openMenuItem ? "item-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openMenuItem ? "true" : undefined}
-              sx={{ pl: 4 }}
-            >
-              <ListItemIcon>
-                <Movie />
-              </ListItemIcon>
-              <ListItemText>
-                <Typography
-                  variant="body1"
-                  style={{
-                    width: "calc(100% - 10px)",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
+          {newData.videos.map((item, key) =>
+            editItem === item.Nombre ? (
+              <ListItem key={key}>
+                <IconButton
+                  onClick={() => setEditItem("")}
+                  style={{ marginLeft: 5, marginRight: 19 }}
                 >
-                  {item.Nombre}
-                </Typography>
-              </ListItemText>
-            </ListItemButton>
-          ))}
+                  <Cancel />
+                </IconButton>
+                <TextField
+                  defaultValue={item.Nombre}
+                  focused
+                  fullWidth
+                  onChange={(e) => (valueEditItem.current = e.target.value)}
+                />
+                <IconButton
+                  color="primary"
+                  onClick={(e) => handleEdItem(e, item.id)}
+                >
+                  <Save />
+                </IconButton>
+              </ListItem>
+            ) : (
+              <ListItemButton
+                key={key}
+                id={"item-button"}
+                onClick={(e) => handlerMenuOpenItem(e, item.Nombre)}
+                aria-controls={openMenuItem ? "item-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={openMenuItem ? "true" : undefined}
+                sx={{ pl: 4 }}
+              >
+                <ListItemIcon>
+                  <Movie />
+                </ListItemIcon>
+                <ListItemText>
+                  <Typography
+                    variant="body1"
+                    style={{
+                      width: "calc(100% - 10px)",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}
+                  >
+                    {item.Nombre}
+                  </Typography>
+                </ListItemText>
+              </ListItemButton>
+            )
+          )}
 
           <Menu
             id="item-menu"

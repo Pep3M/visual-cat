@@ -41,17 +41,17 @@ const CardContainer = (props) => {
       >
         {
           !showMore ? (
-            video.slice(0,6).map((item, key) => (
+            video.videos.slice(0,6).map((item, key) => (
               <ItemCard key={key} title={item.Nombre} img={item.Imagen} />
             ))
           ) : (
-            video.map((item, key) => (
+            video.videos.map((item, key) => (
               <ItemCard key={key} title={item.Nombre} img={item.Imagen} />
             ))
           )
         }
       </Box>
-      <ShowMore cantidad={video.length} callbackShow={(e) => setShowMore(e)} />
+      <ShowMore cantidad={video.videos.length} callbackShow={(e) => setShowMore(e)} />
     </Box>
   );
 };

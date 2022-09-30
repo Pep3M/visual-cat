@@ -29,7 +29,7 @@ const ControlCategory = (props) => {
   const totalData = () => {
     var counter = 0;
     categories.map(
-      (category) => (counter = counter + dataState[category].length)
+      (category) => (counter = counter + dataState[category].videos.length)
     );
     return counter;
   };
@@ -37,7 +37,7 @@ const ControlCategory = (props) => {
   const [totals, setTotals] = useState({
     category: categories.length,
     item: totalData(),
-  })
+  });
 
   const handlerCallback = (dataChild) => {
     setOpenAddCategory(dataChild);
@@ -49,12 +49,14 @@ const ControlCategory = (props) => {
     });
   };
   const handlerTotals = (callback) => {
+    console.log('callback', callback);
+    console.log('totals', totals);
     setTotals({
       category: totals.category - callback.category,
-      item: totals.item - callback.item
-    })
-  }
-    
+      item: totals.item - callback.item,
+    });
+  };
+
   return (
     <Box
       sx={{
