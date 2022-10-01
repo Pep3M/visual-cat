@@ -61,9 +61,8 @@ const ItemControlCategory = (props) => {
   const dataItem = useRef({});
 
   //Handlers Menu Categories
-  const handlerMenuOpen = (e, name) => {
+  const handlerMenuOpen = (e) => {
     setAnchorEl(e.currentTarget);
-    console.log(name);
   };
   const handlerMenuClose = () => {
     setAnchorEl(null);
@@ -145,10 +144,29 @@ const ItemControlCategory = (props) => {
       }
     });
 
-    setNewData({ ...newData, videos });
+    const options = {
+      method: "PUT",
+      url: "http://localhost:3001/editfilms",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        category,
+        videos,
+      },
+    };
 
-    setEditItem("");
-    valueEditItem.current = "";
+    axios
+      .request(options)
+      .then((response) => {
+        if (response.status === 201) {
+          const dataVideoActualizados = { ...newData, videos };
+          setNewData(dataVideoActualizados);
+          setEditItem("");
+          valueEditItem.current = "";
+        }
+      })
+      .catch((err) => {
+        console.error("Error al editar videos", err);
+      });
   };
   const handleDelItem = (callback) => {
     const videos = newData.videos.filter(
@@ -235,7 +253,7 @@ const ItemControlCategory = (props) => {
 
         <IconButton
           id="icon-button"
-          onClick={(e) => handlerMenuOpen(e, category)}
+          onClick={handlerMenuOpen}
           aria-controls={openMenu ? "basic-menu" : undefined}
           aria-haspopup="true"
           aria-expanded={openMenu ? "true" : undefined}
