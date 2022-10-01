@@ -44,14 +44,13 @@ const EditModal = (props) => {
 
   const theme = useTheme();
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
-  
+
   const [nameCategory, setNameCategory] = useState(name);
   const [rutas, setRutas] = useState(data.paths);
-  
+
   useEffect(() => {
-    setNameCategory(name)
+    setNameCategory(name);
   }, [name]);
-  
 
   const handleAction = (e) => {
     dataCallback({

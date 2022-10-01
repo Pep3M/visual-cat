@@ -106,7 +106,7 @@ const ItemControlCategory = (props) => {
   const handleDelCategory = (callback) => {
     if (callback) {
       const options = {
-        method: "POST",
+        method: "DELETE",
         url: `${url_base_local}delcategory`,
         headers: { "Content-Type": "application/json" },
         data: { name: "Filmes", category },
