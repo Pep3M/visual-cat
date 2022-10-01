@@ -29,6 +29,8 @@ import {
 import { useRef } from "react";
 import DelConfirmation from "../atoms/DelConfirmation";
 import EditModal from "../atoms/EditModal";
+import axios from "axios";
+import { url_base_local } from "../../../api/env";
 
 const emptyActions = {
   edit: false,
@@ -40,6 +42,7 @@ const emptyActions = {
 
 const ItemControlCategory = (props) => {
   const { category, data, totalsSus } = props;
+  const [newCategory, setNewCategory] = useState(category);
   const [newData, setNewData] = useState(data);
 
   const [open, setOpen] = useState(false);
@@ -66,13 +69,54 @@ const ItemControlCategory = (props) => {
     setAnchorEl(null);
   };
   const handleEdCategory = (callback) => {
+    function updateState(data) {
+      setStateActions({
+        ...stateActions,
+        edit: false,
+      });
+      setNewData(data);
+      setNewCategory(callback.nameCategory);
+    }
     if (callback) {
-      console.log("handleEdCategory", callback);
+      const options = {
+        method: "PUT",
+        url: url_base_local + "editcategory",
+        headers: { "Content-Type": "application/json" },
+        data: {
+          name: "Filmes",
+          categoryOld: category,
+          categoryNew: callback.nameCategory,
+          paths: callback.rutas,
+        },
+      };
+      console.log(options);
+      axios
+        .request(options)
+        .then(function (response) {
+          console.log(response);
+          if (response.data) {
+            updateState(response.data[callback.nameCategory]);
+          }
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     }
   };
   const handleDelCategory = (callback) => {
     if (callback) {
-      setVisible(false);
+      const options = {
+        method: "POST",
+        url: `${url_base_local}delcategory`,
+        headers: { "Content-Type": "application/json" },
+        data: { name: "Filmes", category },
+      };
+      axios.request(options).then((response) => {
+        if (response.status === 200) {
+          setVisible(false);
+          console.log(response.data);
+        }
+      });
     }
   };
 
@@ -101,17 +145,19 @@ const ItemControlCategory = (props) => {
       }
     });
 
-    setNewData({...newData, videos});
+    setNewData({ ...newData, videos });
 
     setEditItem("");
     valueEditItem.current = "";
   };
   const handleDelItem = (callback) => {
-    const videos = newData.videos.filter((item) => item.Nombre !== callback.name);
+    const videos = newData.videos.filter(
+      (item) => item.Nombre !== callback.name
+    );
     setNewData({
       ...newData,
       videos,
-    })
+    });
   };
 
   //Actions Menu Categories
@@ -179,7 +225,7 @@ const ItemControlCategory = (props) => {
                 textOverflow: "ellipsis",
               }}
             >
-              {category}
+              {newCategory}
             </Typography>
           </ListItemText>
           <div style={{ marginRight: 40 }}>
@@ -211,7 +257,7 @@ const ItemControlCategory = (props) => {
             "aria-labelledby": "icon-button",
           }}
         >
-          <MenuItem onClick={(e) => menuAdd(e, category)}>
+          <MenuItem onClick={(e) => menuAdd(e, newCategory)}>
             <ListItemIcon>
               <Add />
             </ListItemIcon>
@@ -220,14 +266,14 @@ const ItemControlCategory = (props) => {
 
           <Divider />
 
-          <MenuItem onClick={(e) => menuEdit(e, category)}>
+          <MenuItem onClick={(e) => menuEdit(e, newCategory)}>
             <ListItemIcon>
               <Edit />
             </ListItemIcon>
             Editar
           </MenuItem>
 
-          <MenuItem onClick={(e) => menuDel(e, category)}>
+          <MenuItem onClick={(e) => menuDel(e, newCategory)}>
             <ListItemIcon>
               <Delete />
             </ListItemIcon>
@@ -240,8 +286,8 @@ const ItemControlCategory = (props) => {
           name={stateActions.name}
           type={stateActions.type}
           data={newData}
-          edCategory={handleEdCategory}
           onClose={(callback) => setStateActions(emptyActions)}
+          dataCallback={handleEdCategory}
         />
         <DelConfirmation
           open={stateActions.delConfirmation}

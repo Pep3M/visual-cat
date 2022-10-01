@@ -19,7 +19,7 @@ import {
   ListItem,
   ListItemButton,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   globalsColors,
   neumorphismDivContainer,
@@ -40,15 +40,24 @@ const style = {
 };
 
 const EditModal = (props) => {
-  const { open, type, data, name, edCategory, onClose } = props;
+  const { open, type, data, name, onClose, dataCallback } = props;
 
   const theme = useTheme();
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
-
+  
+  const [nameCategory, setNameCategory] = useState(name);
   const [rutas, setRutas] = useState(data.paths);
+  
+  useEffect(() => {
+    setNameCategory(name)
+  }, [name]);
+  
 
   const handleAction = (e) => {
-    console.log(e.target, name);
+    dataCallback({
+      nameCategory,
+      rutas,
+    });
   };
   const handleOnClose = (e) => {
     onClose(true);
@@ -75,9 +84,13 @@ const EditModal = (props) => {
         newArr.push(ruta);
       }
     });
-    setRutas(newArr)
+    setRutas(newArr);
   };
-  
+
+  const handleOnChangeCategory = (value) => {
+    setNameCategory(value);
+  };
+
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -117,7 +130,8 @@ const EditModal = (props) => {
             label="Nombre de la categoria"
             color="primary"
             fullWidth
-            defaultValue={name}
+            defaultValue={nameCategory}
+            onChange={(e) => handleOnChangeCategory(e.target.value)}
             style={{
               marginBottom: 20,
             }}
