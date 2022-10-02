@@ -17,6 +17,7 @@ import {
   scrollBarStyle,
 } from "../../../styles/GlobalStyles";
 import ModalAddCategory from "../../ModalAddCategory/ModalAddCategory";
+import CustomSnackBarr from "../atoms/CustomSnackBarr";
 import ItemControlCategory from "../molecules/ItemControlCategory";
 
 const ControlCategory = (props) => {
@@ -161,6 +162,7 @@ const ControlCategory = (props) => {
         closeCallback={handlerCallback}
         updateData={handlerUpdateData}
       />
+      
     </Box>
   );
 };

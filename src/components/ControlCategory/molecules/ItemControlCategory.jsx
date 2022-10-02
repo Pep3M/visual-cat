@@ -49,6 +49,8 @@ const ItemControlCategory = (props) => {
   const [visible, setVisible] = useState(true);
   const [stateActions, setStateActions] = useState(emptyActions);
   const [editItem, setEditItem] = useState("");
+  const [fetching, setFetching] = useState(false);
+  const [errorApi, setErrorApi] = useState("");
   const valueEditItem = useRef("");
 
   //Menu Categories
@@ -77,6 +79,7 @@ const ItemControlCategory = (props) => {
       setNewCategory(callback.nameCategory);
     }
     if (callback) {
+      setFetching(true);
       const options = {
         method: "PUT",
         url: url_base_local + "editcategory",
@@ -93,29 +96,39 @@ const ItemControlCategory = (props) => {
         .request(options)
         .then(function (response) {
           console.log(response);
-          if (response.data) {
+          if (response.status === 201) {
             updateState(response.data[callback.nameCategory]);
           }
+          setFetching(false);
         })
         .catch(function (error) {
           console.error(error);
+          setFetching(false);
         });
     }
   };
   const handleDelCategory = (callback) => {
     if (callback) {
+      setFetching(true);
       const options = {
         method: "DELETE",
         url: `${url_base_local}delcategory`,
         headers: { "Content-Type": "application/json" },
         data: { name: "Filmes", category },
       };
-      axios.request(options).then((response) => {
-        if (response.status === 200) {
-          setVisible(false);
-          console.log(response.data);
-        }
-      });
+      axios
+        .request(options)
+        .then((response) => {
+          if (response.status === 201) {
+            setVisible(false);
+            console.log(response.data);
+            setFetching(false);
+            setStateActions(emptyActions);
+          }
+        })
+        .catch((err) => {
+          setFetching(false);
+        });
     }
   };
 
@@ -131,6 +144,7 @@ const ItemControlCategory = (props) => {
     dataItem.current = {};
   };
   const handleEdItem = (e, id) => {
+    setFetching(true);
     let videos = [];
 
     newData.videos.forEach((item) => {
@@ -146,7 +160,7 @@ const ItemControlCategory = (props) => {
 
     const options = {
       method: "PUT",
-      url: "http://localhost:3001/editfilms",
+      url: `${url_base_local}editfilms`,
       headers: { "Content-Type": "application/json" },
       data: {
         category,
@@ -162,20 +176,45 @@ const ItemControlCategory = (props) => {
           setNewData(dataVideoActualizados);
           setEditItem("");
           valueEditItem.current = "";
+          setFetching(false);
         }
       })
       .catch((err) => {
         console.error("Error al editar videos", err);
+        setFetching(false);
       });
   };
   const handleDelItem = (callback) => {
+    setFetching(true);
     const videos = newData.videos.filter(
       (item) => item.Nombre !== callback.name
     );
-    setNewData({
-      ...newData,
-      videos,
-    });
+
+    const options = {
+      method: "DELETE",
+      url: `${url_base_local}delfilms`,
+      headers: { "Content-Type": "application/json" },
+      data: {
+        category,
+        name: callback.name,
+      },
+    };
+    axios
+      .request(options)
+      .then((response) => {
+        if (response.status === 201) {
+          setNewData({
+            ...newData,
+            videos,
+          });
+          setFetching(false);
+          setStateActions(emptyActions);
+        }
+      })
+      .catch((err) => {
+        console.error("Error al eliminar:", err);
+        setFetching(false);
+      });
   };
 
   //Actions Menu Categories
@@ -275,14 +314,14 @@ const ItemControlCategory = (props) => {
             "aria-labelledby": "icon-button",
           }}
         >
-          <MenuItem onClick={(e) => menuAdd(e, newCategory)}>
+          {/* <MenuItem onClick={(e) => menuAdd(e, newCategory)}>
             <ListItemIcon>
               <Add />
             </ListItemIcon>
             Agregar
           </MenuItem>
 
-          <Divider />
+          <Divider /> */}
 
           <MenuItem onClick={(e) => menuEdit(e, newCategory)}>
             <ListItemIcon>
@@ -304,6 +343,7 @@ const ItemControlCategory = (props) => {
           name={stateActions.name}
           type={stateActions.type}
           data={newData}
+          fetching={fetching}
           onClose={(callback) => setStateActions(emptyActions)}
           dataCallback={handleEdCategory}
         />
@@ -312,6 +352,7 @@ const ItemControlCategory = (props) => {
           name={stateActions.name}
           type={stateActions.type}
           data={newData}
+          fetching={fetching}
           delCategory={handleDelCategory}
           delItem={handleDelItem}
           onClose={(callback) => setStateActions(emptyActions)}

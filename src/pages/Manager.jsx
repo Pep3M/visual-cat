@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { url_base } from "../api/env";
 import ControlCategory from "../components/ControlCategory/container/ControlCategory";
+import GeneralsConf from "../components/ControlCategory/container/GeneralsConf";
 import TopBar from "../components/TopBar/TopBar";
 import { globalsColors } from "../styles/GlobalStyles";
 
@@ -57,6 +58,8 @@ const Manager = () => {
               paddingBottom: 20,
             }}
           >
+            <GeneralsConf />
+
             {tipos.map((tipo, key) => (
               <ControlCategory key={key} data={allData[tipo]} name={tipo} />
             ))}

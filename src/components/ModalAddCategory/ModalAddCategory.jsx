@@ -11,6 +11,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { Close, CreateNewFolder } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import { useTheme } from "@mui/system";
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
@@ -19,6 +20,7 @@ import {
   neumorphismDivContainer,
 } from "../../styles/GlobalStyles";
 import { urlWinFormater } from "../../functions/formater";
+import CustomSnackBarr from "../ControlCategory/atoms/CustomSnackBarr";
 
 const style = {
   ...neumorphismDivContainer,
@@ -49,6 +51,8 @@ const ModalAddCategory = (props) => {
   const [openState, setOpenState] = useState(open);
   const [errorCat, setErrorCat] = useState(false);
   const [errorPath, setErrorPath] = useState(false);
+  const [errorApi, setErrorApi] = useState("");
+  const [fetching, setFetching] = useState(false);
 
   const valueCat = useRef("");
   const valuePath = useRef("");
@@ -56,6 +60,7 @@ const ModalAddCategory = (props) => {
   const handleClose = () => {
     setOpenState(false);
     closeCallback(false);
+    setErrorApi("");
   };
 
   useEffect(() => {
@@ -66,6 +71,7 @@ const ModalAddCategory = (props) => {
    * Envía una solicitud POST al servidor con el objeto de categoria y videos como cuerpo de la solicitud.
    */
   const addCategory = () => {
+    setFetching(true);
     if (valueCat.current === "") setErrorCat(true);
     if (valuePath.current === "") setErrorPath(true);
 
@@ -84,9 +90,9 @@ const ModalAddCategory = (props) => {
       axios
         .request(optionsToSend)
         .then((response) => {
-          if (response.data) {
-            const name = Object.keys(response.data)[0]
-            
+          if (response.status === 201) {
+            const name = Object.keys(response.data)[0];
+
             console.log(name);
             console.log(response.data[name]);
             setOpenState(false);
@@ -96,23 +102,31 @@ const ModalAddCategory = (props) => {
             });
             closeCallback(false);
           } else {
-            console.log('no hay data devuelta d la api, error')
+            setErrorApi("No se puedo agregar, servidor caido o bloqueado");
           }
+          setFetching(false);
         })
+
         .catch((err) => {
-          console.error(err);
+          setErrorApi(`No se puedo agregar. ${err.response.data}`);
+          console.error(String(err.response.data));
+          setFetching(false);
         });
+    } else {
+      setFetching(false);
     }
   };
 
   const handlerValueCat = (e) => {
     valueCat.current = e.target.value;
     setErrorCat(false);
+    setErrorApi(false);
   };
 
   const handlerValuePath = (e) => {
     valuePath.current = e.target.value;
     setErrorPath(false);
+    setErrorApi(false);
   };
 
   return (
@@ -173,21 +187,31 @@ const ModalAddCategory = (props) => {
               onChange={handlerValuePath}
             />
           </Box>
+          <Typography
+            variant="body2"
+            color="error"
+            style={{
+              marginTop: errorApi ? 20 : 40,
+            }}
+          >
+            {errorApi}
+          </Typography>
           <Box
             sx={{
-              marginTop: 40,
               display: "flex",
               justifyContent: "flex-end",
             }}
           >
-            <Button
+            <LoadingButton
               variant="contained"
               color="primary"
+              loading={fetching}
+              loadingPosition="start"
               startIcon={<CreateNewFolder />}
               onClick={addCategory}
             >
               Agregar
-            </Button>
+            </LoadingButton>
 
             <IconButton
               variant="outlined"

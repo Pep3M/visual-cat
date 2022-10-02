@@ -9,6 +9,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { Cancel, Close, Delete } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import { Grid } from "@mui/material";
 import { useTheme } from "@mui/system";
 import { useState, useEffect } from "react";
@@ -31,8 +32,17 @@ const style = {
 };
 
 const DelConfirmation = (props) => {
-  const { open, type, data, name, delCategory, delItem, onClose, totalsSus } =
-    props;
+  const {
+    open,
+    type,
+    data,
+    name,
+    delCategory,
+    delItem,
+    onClose,
+    totalsSus,
+    fetching,
+  } = props;
 
   const theme = useTheme();
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
@@ -55,7 +65,7 @@ const DelConfirmation = (props) => {
         item: 1,
       });
     }
-    onClose(true);
+    //onClose(true);
   };
 
   const handleOnClose = (e) => {
@@ -75,10 +85,12 @@ const DelConfirmation = (props) => {
       }}
     >
       <Fade in={open}>
-        <Box sx={{
-          ...style,
-          width: bp600down ? '60%' : 400,
-        }}>
+        <Box
+          sx={{
+            ...style,
+            width: bp600down ? "60%" : 400,
+          }}
+        >
           <Typography
             variant="h5"
             style={{
@@ -113,14 +125,16 @@ const DelConfirmation = (props) => {
               Cancelar
             </Button>
 
-            <Button
+            <LoadingButton
               variant="contained"
               color="secondary"
               startIcon={<Delete />}
+              loading={fetching}
+              loadingPosition='start'
               onClick={handleAction}
             >
               Eliminar
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </Fade>

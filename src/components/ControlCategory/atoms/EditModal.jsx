@@ -12,6 +12,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { Add, Cancel, Close, Edit, Save, Send } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
 import {
   IconButton,
   Input,
@@ -40,7 +41,7 @@ const style = {
 };
 
 const EditModal = (props) => {
-  const { open, type, data, name, onClose, dataCallback } = props;
+  const { open, type, data, name, onClose, dataCallback, fetching } = props;
 
   const theme = useTheme();
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
@@ -183,14 +184,16 @@ const EditModal = (props) => {
               Cancelar
             </Button>
 
-            <Button
+            <LoadingButton
               variant="contained"
               color="primary"
               startIcon={<Save />}
+              loadingPosition='start'
+              loading={fetching}
               onClick={handleAction}
             >
               Guardar
-            </Button>
+            </LoadingButton>
           </Box>
         </Box>
       </Fade>
