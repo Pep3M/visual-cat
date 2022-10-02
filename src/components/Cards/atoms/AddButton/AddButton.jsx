@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { setPeliSelection, deletePeliSelection } from "../../../../store/actions";
 
 const AddButton = (props) => {
-  const { nombre, img, pelis, setPeliSelection, deletePeliSelection} = props;
+  const { nombre, img, data, pelis, setPeliSelection, deletePeliSelection} = props;
 
   const isActive = pelis.some(peli => peli.Nombre === nombre)
   
@@ -16,6 +16,7 @@ const AddButton = (props) => {
     } else {
       setPeliSelection({
         Nombre: nombre,
+        Size: data.Size
       })
     }
   };

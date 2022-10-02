@@ -9,15 +9,16 @@ import {
 import { Skeleton } from "@mui/material";
 import { useRef, useEffect, useState } from "react";
 //use redux
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 import axios from "axios";
 import { url_base } from "../../../../api/env";
+import HdIndicator from "../../atoms/HdIndicator";
 
 const ItemCard = (props) => {
-  const { title, img, id, size, pelis } = props;
+  const { title, img, id, size, data, pelis } = props;
   const sizeFinal = size ?? 150;
 
-  const isActive = pelis.some(peli => peli.Nombre === title)
+  const isActive = pelis.some((peli) => peli.Nombre === title);
 
   const [showImg, setShowImg] = useState(false);
   const ref = useRef(null);
@@ -28,7 +29,7 @@ const ItemCard = (props) => {
     axios.get(url_base + 'pelisImg')
     .then(res => setUrlImg(res.data))
   }, []); */
-  
+
   useEffect(() => {
     const observer = new window.IntersectionObserver((entries) => {
       const { isIntersecting } = entries[0];
@@ -51,13 +52,14 @@ const ItemCard = (props) => {
         height: `${sizeFinal * 1.5}px`,
         minHeight: `${sizeFinal * 1.5}px`,
         margin: 10,
-        background: `linear-gradient(130deg, ${globalsColors.primaryThin } 0%, ${globalsColors.lightBaseThin} 100%)`,
+        background: `linear-gradient(130deg, ${globalsColors.primaryThin} 0%, ${globalsColors.lightBaseThin} 100%)`,
         overflow: "hidden",
         position: "relative",
         transition: "100ms",
       }}
     >
-      <AddButton nombre={title} img={img}/>
+      {data.Size < 2500 ? <></> : <HdIndicator />}
+      <AddButton nombre={title} img={img} data={data} />
       {/* <Link to={"/movies/" + id}> */}
       {showImg ? (
         <div className="imagen_card">
@@ -69,7 +71,7 @@ const ItemCard = (props) => {
               height={"100%"}
             />
           ) : (
-            <img src={url_base + 'pelisImg?name=' + img} alt="" />
+            <img src={url_base + "pelisImg?name=" + img} alt="" />
           )}
         </div>
       ) : (
@@ -82,7 +84,9 @@ const ItemCard = (props) => {
           width: "100%",
           padding: "8px",
           color: "white",
-          backgroundImage: `linear-gradient(180deg, ${globalsColors.primaryThin} 1%, ${isActive ? '#45bc8e' : globalsColors.primary} 100%)`,
+          backgroundImage: `linear-gradient(180deg, ${
+            globalsColors.primaryThin
+          } 1%, ${isActive ? "#45bc8e" : globalsColors.primary} 100%)`,
           backdropFilter: "blur(3px)",
           position: "absolute",
           bottom: 0,
@@ -97,6 +101,5 @@ const ItemCard = (props) => {
 const mapStoreToProps = (state) => ({
   pelis: state.pelis,
 });
-
 
 export default connect(mapStoreToProps, null)(ItemCard);

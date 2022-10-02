@@ -12,9 +12,12 @@ import {
 import { Close, Delete, Send } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import { useTheme } from "@mui/system";
+import axios from "axios";
 import React, { useEffect } from "react";
+import { useRef } from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
+import { url_base } from "../../api/env";
 import { setOpenModalCart, delAllSelection } from "../../store/actions";
 import {
   globalsColors,
@@ -44,9 +47,13 @@ const ModalCart = (props) => {
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
 
   const [openSecureClean, setOpenSecureClean] = useState(false);
+  const [state, setState] = useState({
+    price: 0,
+    priceHD: 0,
+  });
 
   const handleClose = () => setOpenModalCart(false);
-  const handleAllClean = (e) => /* delAllSelection(null) */ {
+  const handleAllClean = (e) => {
     console.log("abriendo secure");
     setOpenSecureClean(true);
   };
@@ -54,14 +61,38 @@ const ModalCart = (props) => {
     console.log("cerrando secure");
     setOpenSecureClean(false);
   };
+  const getPrice = (size) => (size < 2500 ? state.price : state.priceHD);
 
-  const total = pelis ? pelis.length * 3 : 0;
+  const total = () => {
+    let totalFinal = 0;
+    pelis.forEach((peli) => {
+      totalFinal += Number(getPrice(peli.Size));
+    });
+    return totalFinal;
+  };
 
   useEffect(() => {
-    if (total === 0) {
+    if (pelis.length === 0) {
       setOpenModalCart(false);
     }
-  }, [total]);
+  }, [pelis]);
+
+  useEffect(() => {
+    axios
+      .get(url_base + "getconfig")
+      .then((response) => {
+        if (response.status === 201) {
+          setState({
+            ...state,
+            price: response.data.price,
+            priceHD: response.data.priceHD,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error("No se pudo obtener la configuracion API:", err);
+      });
+  }, []);
 
   return (
     <Modal
@@ -104,7 +135,7 @@ const ModalCart = (props) => {
                 key={i}
                 index={i + 1}
                 nombre={item.Nombre}
-                precio={3}
+                precio={getPrice(item.Size)}
               />
             ))}
           </Box>
@@ -132,7 +163,7 @@ const ModalCart = (props) => {
                 whiteSpace: "nowrap",
               }}
             >
-              {total ?? 0} CUP
+              {total() ?? 0} CUP
             </Typography>
           </Box>
           <Box

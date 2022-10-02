@@ -42,11 +42,11 @@ const CardContainer = (props) => {
         {
           !showMore ? (
             video.videos.slice(0,6).map((item, key) => (
-              <ItemCard key={key} title={item.Nombre} img={item.Imagen} />
+              <ItemCard key={key} title={item.Nombre} data={item} img={item.Imagen} />
             ))
           ) : (
             video.videos.map((item, key) => (
-              <ItemCard key={key} title={item.Nombre} img={item.Imagen} />
+              <ItemCard key={key} title={item.Nombre} data={item} img={item.Imagen} />
             ))
           )
         }
