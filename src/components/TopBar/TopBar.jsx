@@ -12,15 +12,22 @@ import {
   Typography,
   Button,
   Drawer,
+  Badge,
+  MenuItem,
+  ListItemAvatar,
+  Avatar,
 } from "@material-ui/core";
-import MenuIcon from "@mui/icons-material/Menu";
 import ListItemButton from "@mui/material/ListItemButton";
-import { useMediaQuery } from "@mui/material";
+import { useMediaQuery, Tooltip, Menu } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-import { globalsColors } from "../../styles/GlobalStyles";
-import { Settings } from "@mui/icons-material";
+import {
+  globalsColors,
+  neumorphismDivContainer,
+} from "../../styles/GlobalStyles";
+import { Notifications, Settings } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { APP_NAME } from "../../GlobalConstants";
+import NotificationOrder from "./molecules/NotificationOrder";
 
 const drawerWidth = 240;
 const navItems = ["Filmes"];
@@ -154,18 +161,27 @@ const TopBar = (props) => {
               </Link>
             ))}
           </Box> */}
+          <div
+            style={{
+              position: "absolute",
+              top: bp600up ? 9 : 4,
+              right: showManager ? 50 : 10,
+            }}
+          ><NotificationOrder /></div>
           {showManager ? (
             <Link to={"/manager"}>
-              <IconButton
-                color="primary"
-                style={{
-                  position: "absolute",
-                  top: bp600up ? 9 : 4,
-                  right: 4,
-                }}
-              >
-                <Settings />
-              </IconButton>
+              <Tooltip title="Manager">
+                <IconButton
+                  color="primary"
+                  style={{
+                    position: "absolute",
+                    top: bp600up ? 9 : 4,
+                    right: 4,
+                  }}
+                >
+                  <Settings />
+                </IconButton>
+              </Tooltip>
             </Link>
           ) : (
             <></>
