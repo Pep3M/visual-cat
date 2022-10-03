@@ -27,7 +27,7 @@ import {
 import { Notifications, Settings } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { APP_NAME } from "../../GlobalConstants";
-import NotificationOrder from "./molecules/NotificationOrder";
+import NotificationOrder from "./container/NotificationOrder";
 
 const drawerWidth = 240;
 const navItems = ["Filmes"];

@@ -1,21 +1,46 @@
 import { IconButton, Tooltip } from "@material-ui/core";
 import { Notifications } from "@mui/icons-material";
-import { Avatar, Badge, Box, ListItemAvatar, ListItemText, Menu, MenuItem } from "@mui/material";
+import {
+  Avatar,
+  Badge,
+  Box,
+  ListItemAvatar,
+  ListItemText,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import React, { useState } from "react";
-import { globalsColors, neumorphismDivContainer } from "../../../styles/GlobalStyles";
+import {
+  globalsColors,
+  neumorphismDivContainer,
+} from "../../../styles/GlobalStyles";
+import ModalOrder from "../molecules/ModalOrder";
 
 const NotificationOrder = (props) => {
-
   const [notifState, setNotifState] = useState({
     anchorEl: null,
     info: [
-      { from: "Prueba", message: "Esto es una prueba", cant: 2 },
+      {
+        from: "Prueba",
+        message: "Esto es una prueba",
+        orders: [
+          { Nombre: "Matrix", Direccion: "una ruta", Size: 800 },
+          { Nombre: "War", Direccion: "una ruta", Size: 3000 },
+        ],
+      },
       {
         from: "Prueba2",
         message: "Esto es una prueba 2 para ver el largo",
-        cant: 18,
+        orders: [
+          { Nombre: "Matrix", Direccion: "una ruta", Size: 800 },
+          { Nombre: "War", Direccion: "una ruta", Size: 3000 },
+        ],
       },
     ],
+  });
+  const [stateModal, setStateModal] = useState({
+    open: false,
+    data: [],
   });
 
   const openMenuNotif = Boolean(notifState.anchorEl);
@@ -30,6 +55,21 @@ const NotificationOrder = (props) => {
     setNotifState({
       ...notifState,
       anchorEl: null,
+    });
+  };
+  const handleClickItem = (e, from, data) => {
+    setStateModal({
+      ...stateModal,
+      open: true,
+      from,
+      data,
+    });
+  };
+
+  const handleCloseModal = () => {
+    setStateModal({
+      ...stateModal,
+      open: false,
     });
   };
 
@@ -91,7 +131,7 @@ const NotificationOrder = (props) => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {notifState.info.map((item, key) => (
-          <MenuItem style={{}}>
+          <MenuItem onClick={(e) => handleClickItem(e, item.from, item.orders)} style={{}}>
             <Box
               style={{
                 ...neumorphismDivContainer,
@@ -107,7 +147,7 @@ const NotificationOrder = (props) => {
                     backgroundColor: globalsColors.primary,
                   }}
                 >
-                  {item.cant}
+                  {item.orders.length}
                 </Avatar>
               </ListItemAvatar>
               <ListItemText primary={item.from} secondary={item.message} />
@@ -115,6 +155,12 @@ const NotificationOrder = (props) => {
           </MenuItem>
         ))}
       </Menu>
+      <ModalOrder
+        cliente={stateModal.from}
+        openProps={stateModal.open}
+        closed={handleCloseModal}
+        pelis={stateModal.data}
+      />
     </>
   );
 };
