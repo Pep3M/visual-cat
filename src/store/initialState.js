@@ -4,4 +4,5 @@ export const initialState = {
   novelas: [],
   anime: [],
   openModalCart: false,
+  openSended: false,
 }

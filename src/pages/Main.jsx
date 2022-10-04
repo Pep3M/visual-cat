@@ -14,6 +14,7 @@ import { connect } from "react-redux";
 import FabCustom from "../components/FabCustom/FabCustom";
 import axios from "axios";
 import { url_base, url_base_local } from "../api/env";
+import ModalOrderSended from "../components/ModalCart/ModalOrderSended";
 
 const theme = createTheme({
   palette: {
@@ -70,13 +71,13 @@ const Main = (props) => {
             <FabCustom />
           </Box>
         )}
+        <ModalOrderSended />
       </Box>
     </ThemeProvider>
   );
 };
 
 const mapStateToProps = (state) => ({
-  pelis: state.pelis,
+  pelis: state.pelis, state
 });
-
 export default connect(mapStateToProps, null)(Main);

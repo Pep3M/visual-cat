@@ -34,7 +34,7 @@ const style = {
 };
 ///importar modalOrder en notificationorder
 const ModalOrder = (props) => {
-  const { cliente, openProps, closed, pelis } = props;
+  const { cliente, order, openProps, closed, pelis } = props;
 
   const theme = useTheme();
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
@@ -127,7 +127,7 @@ const ModalOrder = (props) => {
               textAlign: "center",
             }}
           >
-            Orden
+            Orden {order}
           </Typography>
           <Divider
             style={{
@@ -144,6 +144,7 @@ const ModalOrder = (props) => {
           >
             {pelis.map((item, i) => (
               <ItemModalOrder
+                key={i}
                 nombre={item.Nombre}
                 ruta={item.Direccion}
                 precio={getPrice(item.Size)}

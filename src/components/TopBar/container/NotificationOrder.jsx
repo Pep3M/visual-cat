@@ -9,34 +9,22 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { url_base, ws_base } from "../../../api/env";
 import {
   globalsColors,
   neumorphismDivContainer,
 } from "../../../styles/GlobalStyles";
 import ModalOrder from "../molecules/ModalOrder";
+import { w3cwebsocket } from "websocket";
+
+const client = new w3cwebsocket(ws_base);
 
 const NotificationOrder = (props) => {
   const [notifState, setNotifState] = useState({
     anchorEl: null,
-    info: [
-      {
-        from: "Prueba",
-        message: "Esto es una prueba",
-        orders: [
-          { Nombre: "Matrix", Direccion: "una ruta", Size: 800 },
-          { Nombre: "War", Direccion: "una ruta", Size: 3000 },
-        ],
-      },
-      {
-        from: "Prueba2",
-        message: "Esto es una prueba 2 para ver el largo",
-        orders: [
-          { Nombre: "Matrix", Direccion: "una ruta", Size: 800 },
-          { Nombre: "War", Direccion: "una ruta", Size: 3000 },
-        ],
-      },
-    ],
+    info: [],
   });
   const [stateModal, setStateModal] = useState({
     open: false,
@@ -57,11 +45,12 @@ const NotificationOrder = (props) => {
       anchorEl: null,
     });
   };
-  const handleClickItem = (e, from, data) => {
+  const handleClickItem = (e, name, order, data) => {
     setStateModal({
       ...stateModal,
       open: true,
-      from,
+      name,
+      order,
       data,
     });
   };
@@ -72,6 +61,32 @@ const NotificationOrder = (props) => {
       open: false,
     });
   };
+
+  useEffect(() => {
+    axios
+      .get(url_base + "getorders")
+      .then((response) => {
+        if (response.status === 201) {
+          setNotifState({
+            ...notifState,
+            info: response.data,
+          });
+        }
+      })
+      .catch((err) => console.error("Error al obtener ordenes del API:", err));
+
+    client.onopen = () => {
+      console.log("Conectado con el websocket server");
+    };
+    client.onmessage = (message) => {
+      const info = JSON.parse(message.data);
+
+      setNotifState({
+        ...notifState,
+        info,
+      });
+    };
+  }, []);
 
   return (
     <>
@@ -131,7 +146,11 @@ const NotificationOrder = (props) => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {notifState.info.map((item, key) => (
-          <MenuItem onClick={(e) => handleClickItem(e, item.from, item.orders)} style={{}}>
+          <MenuItem
+            key={key}
+            onClick={(e) => handleClickItem(e, item.name, item.order, item.videos)}
+            style={{}}
+          >
             <Box
               style={{
                 ...neumorphismDivContainer,
@@ -147,16 +166,17 @@ const NotificationOrder = (props) => {
                     backgroundColor: globalsColors.primary,
                   }}
                 >
-                  {item.orders.length}
+                  {item.videos.length}
                 </Avatar>
               </ListItemAvatar>
-              <ListItemText primary={item.from} secondary={item.message} />
+              <ListItemText primary={item.name} secondary={item.time} />
             </Box>
           </MenuItem>
         ))}
       </Menu>
       <ModalOrder
-        cliente={stateModal.from}
+        cliente={stateModal.name}
+        order={stateModal.order}
         openProps={stateModal.open}
         closed={handleCloseModal}
         pelis={stateModal.data}

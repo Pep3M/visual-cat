@@ -16,7 +16,8 @@ const AddButton = (props) => {
     } else {
       setPeliSelection({
         Nombre: nombre,
-        Size: data.Size
+        Size: data.Size,
+        Direccion: data.Direccion,
       })
     }
   };

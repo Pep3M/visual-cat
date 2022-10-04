@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 import { Close, Delete, Send } from "@mui/icons-material";
-import { Grid } from "@mui/material";
+import { TextField } from "@mui/material";
 import { useTheme } from "@mui/system";
 import axios from "axios";
 import React, { useEffect } from "react";
@@ -18,7 +18,7 @@ import { useRef } from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { url_base } from "../../api/env";
-import { setOpenModalCart, delAllSelection } from "../../store/actions";
+import { setOpenModalCart, setOpenSended, delAllSelection } from "../../store/actions";
 import {
   globalsColors,
   neumorphismDivContainer,
@@ -26,6 +26,7 @@ import {
 } from "../../styles/GlobalStyles";
 import ItemPedido from "./atoms/ItemPedido/ItemPedido";
 import SecureModal from "./atoms/SecureModal/SecureModal";
+import moment from "moment";
 
 const style = {
   ...neumorphismDivContainer,
@@ -41,7 +42,7 @@ const style = {
 };
 
 const ModalCart = (props) => {
-  const { pelis, openState, setOpenModalCart, delAllSelection } = props;
+  const { pelis, openState, setOpenModalCart, delAllSelection, setOpenSended } = props;
 
   const theme = useTheme();
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
@@ -51,6 +52,33 @@ const ModalCart = (props) => {
     price: 0,
     priceHD: 0,
   });
+  const [errorNombrePedido, setErrorNombrePedido] = useState(false);
+  const nombrePedido = useRef("");
+  
+  const handleActionSend = () => {
+    if (nombrePedido.current === "") return setErrorNombrePedido(true);
+
+    const data = {
+      order: moment().format("hhmm-SSS"),
+      time: moment().format("hh:mm A"),
+      name: nombrePedido.current,
+      videos: [...pelis],
+    };
+
+    const options = {
+      method: "POST",
+      url: url_base + "addorder",
+      headers: { "Content-Type": "application/json" },
+      data,
+    };
+
+    axios.request(options).then((response) => {
+      if (response.status === 201) {
+        setOpenSended(nombrePedido.current)
+        delAllSelection(null)
+      }
+    });
+  };
 
   const handleClose = () => setOpenModalCart(false);
   const handleAllClean = (e) => {
@@ -61,6 +89,11 @@ const ModalCart = (props) => {
     console.log("cerrando secure");
     setOpenSecureClean(false);
   };
+  const handleChangeNombrePedido = (e) => {
+    nombrePedido.current = e.target.value
+    setErrorNombrePedido(false)
+  }
+  
   const getPrice = (size) => (size < 2500 ? state.price : state.priceHD);
 
   const total = () => {
@@ -117,12 +150,20 @@ const ModalCart = (props) => {
           >
             Pedido
           </Typography>
-          <Divider
+
+          <TextField
+            error={errorNombrePedido}
+            helperText={errorNombrePedido ? 'No olvide ponerle un nombre a su pedido' : ''}
+            variant="standard"
+            label="Nombre del pedido"
+            fullWidth
+            focused
             style={{
-              marginBlock: 20,
-              backgroundColor: globalsColors.primary,
+              marginBottom: 10,
             }}
+            onChange={handleChangeNombrePedido}
           />
+
           <Box
             sx={{
               ...scrollBarStyle,
@@ -193,11 +234,20 @@ const ModalCart = (props) => {
             )}
 
             {bp600down ? (
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleActionSend}
+              >
                 <Send />
               </Button>
             ) : (
-              <Button variant="contained" color="primary" startIcon={<Send />}>
+              <Button
+                variant="contained"
+                color="primary"
+                startIcon={<Send />}
+                onClick={handleActionSend}
+              >
                 Enviar
               </Button>
             )}
@@ -231,6 +281,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   setOpenModalCart,
+  setOpenSended,
   delAllSelection,
 };
 

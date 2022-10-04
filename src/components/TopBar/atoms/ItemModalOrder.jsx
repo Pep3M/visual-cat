@@ -63,7 +63,7 @@ const ItemModalOrder = (props) => {
       <ListItemText primary={nombre} secondary={ruta} />
 
       <Typography
-        variant="body"
+        variant="body1"
         style={{
           whiteSpace: "nowrap",
         }}

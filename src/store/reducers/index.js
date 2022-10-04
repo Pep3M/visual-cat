@@ -19,6 +19,12 @@ const reducer = (state, action) => {
         ...state,
         openModalCart: action.payload,
       };
+    
+    case "SET_OPEN_SENDED":
+      return {
+        ...state,
+        openSended: action.payload,
+      };
 
     case "SET_DEL_ALL_SELECTION":
       return {

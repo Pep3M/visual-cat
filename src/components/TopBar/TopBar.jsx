@@ -161,28 +161,33 @@ const TopBar = (props) => {
               </Link>
             ))}
           </Box> */}
-          <div
-            style={{
-              position: "absolute",
-              top: bp600up ? 9 : 4,
-              right: showManager ? 50 : 10,
-            }}
-          ><NotificationOrder /></div>
+
           {showManager ? (
-            <Link to={"/manager"}>
-              <Tooltip title="Manager">
-                <IconButton
-                  color="primary"
-                  style={{
-                    position: "absolute",
-                    top: bp600up ? 9 : 4,
-                    right: 4,
-                  }}
-                >
-                  <Settings />
-                </IconButton>
-              </Tooltip>
-            </Link>
+            <>
+              <div
+                style={{
+                  position: "absolute",
+                  top: bp600up ? 9 : 4,
+                  right: showManager ? 50 : 10,
+                }}
+              >
+                <NotificationOrder />
+              </div>
+              <Link to={"/manager"}>
+                <Tooltip title="Manager">
+                  <IconButton
+                    color="primary"
+                    style={{
+                      position: "absolute",
+                      top: bp600up ? 9 : 4,
+                      right: 4,
+                    }}
+                  >
+                    <Settings />
+                  </IconButton>
+                </Tooltip>
+              </Link>
+            </>
           ) : (
             <></>
           )}
