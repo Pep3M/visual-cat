@@ -53,11 +53,11 @@ const SecureModalOrder = (props) => {
             }}
           />
           <Typography variant="text" style={{ color: globalsColors.primary }}>
-            Desea borrar todo el pedido hecho hasta ahora?
+            Desea borrar esta orden?
           </Typography>
           <Box
             sx={{
-              marginTop: 40,
+              marginTop: 5,
               display: "flex",
               justifyContent: "space-between",
             }}

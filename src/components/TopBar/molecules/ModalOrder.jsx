@@ -11,7 +11,7 @@ import { Modal, Fade } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { url_base_local } from "../../../api/env";
+import { url_base, url_base_local } from "../../../api/env";
 import {
   globalsColors,
   neumorphismDivContainer,
@@ -62,16 +62,43 @@ const ModalOrder = (props) => {
     });
   };
   const delAllSelection = () => {
-    console.log("Eliminar orden de la API");
-    setState({
-      ...state,
-      openDel: false,
+    const options = {
+      method: "DELETE",
+      url: url_base + "delorder",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        order,
+      },
+    };
+
+    axios.request(options).then((response) => {
+      if (response.status === 201) {
+        console.log("Eliminar orden de la API");
+        setState({
+          ...state,
+          openDel: false,
+        });
+        closed(true)
+      }
     });
   };
 
   const handlePaid = () => {
-    console.log("Cobrar orden en la API");
-    closed(true)
+    const options = {
+      method: "DELETE",
+      url: url_base + "delorder",
+      headers: { "Content-Type": "application/json" },
+      data: {
+        order,
+      },
+    };
+
+    axios.request(options).then((response) => {
+      if (response.status === 201) {
+        console.log("Orden eliminada de la lista");
+        closed(true);
+      }
+    });
   };
 
   const getPrice = (size) => (size < 2500 ? state.price : state.priceHD);
