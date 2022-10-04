@@ -2,7 +2,7 @@ import { Box, createTheme, ThemeProvider } from "@material-ui/core";
 import { LinearProgress } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { url_base } from "../api/env";
+import { url_base, url_base_local } from "../api/env";
 import ControlCategory from "../components/ControlCategory/container/ControlCategory";
 import GeneralsConf from "../components/ControlCategory/container/GeneralsConf";
 import TopBar from "../components/TopBar/TopBar";
@@ -23,6 +23,7 @@ const theme = createTheme({
 const Manager = () => {
   const [allData, setAllData] = useState({});
   const [loaded, setLoaded] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const tipos = Object.keys(allData);
 
   useEffect(() => {
@@ -32,6 +33,12 @@ const Manager = () => {
         Filmes: res.data,
       });
       setLoaded(true);
+    });
+
+    axios.get(url_base_local).then((res) => {
+      if (res.status === 200) {
+        setShowNotifications(true);
+      }
     });
   }, []);
 
@@ -44,7 +51,7 @@ const Manager = () => {
           backgroundColor: globalsColors.lightBasePrimary,
         }}
       >
-        <TopBar />
+        <TopBar showNotifications={showNotifications} />
         {!loaded ? (
           <LinearProgress color="primary" />
         ) : (

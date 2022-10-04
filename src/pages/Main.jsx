@@ -55,7 +55,7 @@ const Main = (props) => {
           backgroundColor: globalsColors.lightBasePrimary,
         }}
       >
-        <TopBar showManager={showManager} />
+        <TopBar showNotifications={showManager} showManager={showManager} />
 
         {!loaded ? (
           <LinearProgress color="primary" />

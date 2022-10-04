@@ -34,10 +34,12 @@ const NotificationOrder = (props) => {
   const openMenuNotif = Boolean(notifState.anchorEl);
 
   const handleMenuNotifOpen = (e) => {
-    setNotifState({
-      ...notifState,
-      anchorEl: e.currentTarget,
-    });
+    if (notifState.info.length > 0) {
+      setNotifState({
+        ...notifState,
+        anchorEl: e.currentTarget,
+      });
+    }
   };
   const handleMenuNotifClose = () => {
     setNotifState({
@@ -148,7 +150,9 @@ const NotificationOrder = (props) => {
         {notifState.info.map((item, key) => (
           <MenuItem
             key={key}
-            onClick={(e) => handleClickItem(e, item.name, item.order, item.videos)}
+            onClick={(e) =>
+              handleClickItem(e, item.name, item.order, item.videos)
+            }
             style={{}}
           >
             <Box

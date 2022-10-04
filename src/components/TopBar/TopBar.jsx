@@ -33,7 +33,7 @@ const drawerWidth = 240;
 const navItems = ["Filmes"];
 
 const TopBar = (props) => {
-  const { showManager } = props;
+  const { showNotifications, showManager } = props;
   const theme = useTheme();
   const bp600up = useMediaQuery(theme.breakpoints.up(600));
 
@@ -161,18 +161,21 @@ const TopBar = (props) => {
               </Link>
             ))}
           </Box> */}
-
+          {showNotifications ? (
+            <div
+              style={{
+                position: "absolute",
+                top: bp600up ? 9 : 4,
+                right: showManager ? 50 : 10,
+              }}
+            >
+              <NotificationOrder />
+            </div>
+          ) : (
+            <></>
+          )}
           {showManager ? (
             <>
-              <div
-                style={{
-                  position: "absolute",
-                  top: bp600up ? 9 : 4,
-                  right: showManager ? 50 : 10,
-                }}
-              >
-                <NotificationOrder />
-              </div>
               <Link to={"/manager"}>
                 <Tooltip title="Manager">
                   <IconButton
