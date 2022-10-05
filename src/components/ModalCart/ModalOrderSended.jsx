@@ -43,14 +43,14 @@ const ModalOrderSended = (props) => {
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
-      open={open}
+      open={Boolean(open)}
       closeAfterTransition
       BackdropComponent={Backdrop}
       BackdropProps={{
         timeout: 500,
       }}
     >
-      <Fade in={open}>
+      <Fade in={Boolean(open)}>
         <Box sx={style}>
           <Typography
             variant="h4"
