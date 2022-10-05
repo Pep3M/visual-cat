@@ -28,6 +28,7 @@ import { Notifications, Settings } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { APP_NAME } from "../../GlobalConstants";
 import NotificationOrder from "./container/NotificationOrder";
+import PushNotificationInstall from "./container/PushNotificationInstall";
 
 const drawerWidth = 240;
 const navItems = ["Filmes"];
@@ -161,16 +162,28 @@ const TopBar = (props) => {
               </Link>
             ))}
           </Box> */}
+
           {showNotifications ? (
-            <div
-              style={{
-                position: "absolute",
-                top: bp600up ? 9 : 4,
-                right: showManager ? 50 : 10,
-              }}
-            >
-              <NotificationOrder />
-            </div>
+            <>
+              <div
+                style={{
+                  position: "absolute",
+                  top: bp600up ? 9 : 4,
+                  right: showManager ? 100 : 60,
+                }}
+              >
+                <PushNotificationInstall />
+              </div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: bp600up ? 9 : 4,
+                  right: showManager ? 50 : 10,
+                }}
+              >
+                <NotificationOrder />
+              </div>
+            </>
           ) : (
             <></>
           )}
