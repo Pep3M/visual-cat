@@ -38,19 +38,21 @@ const Main = (props) => {
   useEffect(() => {
     axios.get(`${url_base}pelis`).then((res) => {
       setPelisApi(res.data);
-      setLoaded(true);
+      setLoaded(false);
     });
     axios
       .get(url_base_local)
       .then((res) => {
         if (res.status === 200) {
           setShowManager(true);
-          setTimeoutServer(false)
+          setTimeoutServer(false);
         }
+        setLoaded(true);
       })
       .catch((err) => {
         setLoaded(true);
-        setTimeoutServer(true)
+        setTimeoutServer(true);
+        console.log("ERROR CATCH", err);
       });
   }, []);
 
@@ -79,7 +81,7 @@ const Main = (props) => {
                 <CardContainer key={key} header={item} video={pelisApi[item]} />
               ))
             ) : (
-              <WithoutFilms manager={showManager} timeout={timeoutServer} />
+              <WithoutFilms manager={showManager} timeout={false} />
             )}
             <FabCustom />
           </Box>
