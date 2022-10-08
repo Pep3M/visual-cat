@@ -50,8 +50,8 @@ const ControlCategory = (props) => {
     });
   };
   const handlerTotals = (callback) => {
-    console.log('callback', callback);
-    console.log('totals', totals);
+    console.log("callback", callback);
+    console.log("totals", totals);
     setTotals({
       category: totals.category - callback.category,
       item: totals.item - callback.item,
@@ -107,7 +107,11 @@ const ControlCategory = (props) => {
           }}
         >
           <List style={{ width: "100%", paddingBlock: 0 }}>
-            <ListItem>
+            <ListItem
+              style={{
+                justifyContent: "center",
+              }}
+            >
               <ListItemText
                 primary={
                   totals.category > 1
@@ -115,7 +119,10 @@ const ControlCategory = (props) => {
                     : `1 categoria`
                 }
                 secondary={`${totals.item} ${name.toLowerCase()}`}
-                style={{ marginLeft: 10 }}
+                style={{
+                  display: totals.item === 0 ? "none" : "",
+                  marginLeft: 10,
+                }}
               />
               <ListItemIcon>
                 <Button
@@ -162,7 +169,6 @@ const ControlCategory = (props) => {
         closeCallback={handlerCallback}
         updateData={handlerUpdateData}
       />
-      
     </Box>
   );
 };

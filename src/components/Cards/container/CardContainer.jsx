@@ -1,4 +1,5 @@
 import { Box, Typography } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
 import React, { useState } from "react";
 import {
   globalsColors,
@@ -39,19 +40,30 @@ const CardContainer = (props) => {
           justifyContent: "center",
         }}
       >
-        {
-          !showMore ? (
-            video.videos.slice(0,6).map((item, key) => (
-              <ItemCard key={key} title={item.Nombre} data={item} img={item.Imagen} />
-            ))
-          ) : (
-            video.videos.map((item, key) => (
-              <ItemCard key={key} title={item.Nombre} data={item} img={item.Imagen} />
-            ))
-          )
-        }
+        {!showMore
+          ? video.videos
+              .slice(0, 6)
+              .map((item, key) => (
+                <ItemCard
+                  key={key}
+                  title={item.Nombre}
+                  data={item}
+                  img={item.Imagen}
+                />
+              ))
+          : video.videos.map((item, key) => (
+              <ItemCard
+                key={key}
+                title={item.Nombre}
+                data={item}
+                img={item.Imagen}
+              />
+            ))}
       </Box>
-      <ShowMore cantidad={video.videos.length} callbackShow={(e) => setShowMore(e)} />
+      <ShowMore
+        cantidad={video.videos.length}
+        callbackShow={(e) => setShowMore(e)}
+      />
     </Box>
   );
 };

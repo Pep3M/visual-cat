@@ -1,8 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   Backdrop,
   Box,
   Button,
-  Divider,
   Fade,
   IconButton,
   Modal,
@@ -54,6 +54,7 @@ const ModalCart = (props) => {
   });
   const [errorNombrePedido, setErrorNombrePedido] = useState(false);
   const nombrePedido = useRef("");
+  const [labelPedido, setLabelPedido] = useState("Escriba el nombre del pedido aqui");
   
   const handleActionSend = () => {
     if (nombrePedido.current === "") return setErrorNombrePedido(true);
@@ -155,9 +156,9 @@ const ModalCart = (props) => {
             error={errorNombrePedido}
             helperText={errorNombrePedido ? 'No olvide ponerle un nombre a su pedido' : ''}
             variant="standard"
-            label="Nombre del pedido"
+            label={labelPedido}
             fullWidth
-            focused
+            onFocus={()=> setLabelPedido("Nombre del pedido")}
             style={{
               marginBottom: 10,
             }}

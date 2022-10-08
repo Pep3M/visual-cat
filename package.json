@@ -28,6 +28,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "copy": "node copyBuild.js",
+    "public": "react-scripts build && npm run copy",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import AddButton from "../../atoms/AddButton/AddButton";
 import "./card.css";
-import { Box } from "@material-ui/core";
+import { Box, useMediaQuery, useTheme } from "@material-ui/core";
 import {
   globalsColors,
   neumorphismDivItem,
@@ -16,13 +16,18 @@ import HdIndicator from "../../atoms/HdIndicator";
 import ImgNotFount from "../../atoms/ImgNotFount";
 
 const ItemCard = (props) => {
-  const { title, img, id, size, data, pelis } = props;
-  const sizeFinal = size ?? 150;
+  const { title, img, id, primarySize = 150, data, pelis } = props;
 
   const isActive = pelis.some((peli) => peli.Nombre === title);
 
   const [showImg, setShowImg] = useState(false);
   const ref = useRef(null);
+
+  const theme = useTheme();
+  const bpSuperior = useMediaQuery(theme.breakpoints.down(417));
+  const bpMedio = useMediaQuery(theme.breakpoints.down(360));
+
+  const size = bpMedio ? 160 : bpSuperior ? 120 : primarySize;
 
   /* const [urlImg, setUrlImg] = useState('');
   
@@ -34,9 +39,7 @@ const ItemCard = (props) => {
   useEffect(() => {
     const observer = new window.IntersectionObserver((entries) => {
       const { isIntersecting } = entries[0];
-      if (isIntersecting) {
-        setShowImg(isIntersecting);
-      }
+      setShowImg(isIntersecting);
     });
     observer.observe(ref.current);
   }, [ref]);
@@ -48,10 +51,10 @@ const ItemCard = (props) => {
       sx={{
         ...neumorphismDivItem,
         borderRadius: "10px",
-        width: `${sizeFinal}px`,
-        minWidth: `${sizeFinal}px`,
-        height: `${sizeFinal * 1.5}px`,
-        minHeight: `${sizeFinal * 1.5}px`,
+        width: `${size}px`,
+        minWidth: `${size}px`,
+        height: `${size * 1.5}px`,
+        minHeight: `${size * 1.5}px`,
         margin: 10,
         background: `linear-gradient(130deg, ${globalsColors.primaryThin} 0%, ${globalsColors.lightBaseThin} 100%)`,
         overflow: "hidden",
@@ -67,19 +70,20 @@ const ItemCard = (props) => {
           {img === "" ? (
             <>
               <ImgNotFount />
-              {/* <Skeleton
-              variant="rectangular"
-              animation="wave"
-              width={"100%"}
-              height={"100%"}
-            /> */}
             </>
           ) : (
             <img src={url_base + "pelisImg/" + img} alt="" />
           )}
         </div>
       ) : (
-        <></>
+        <>
+          <Skeleton
+            variant="rectangular"
+            animation="wave"
+            width={"100%"}
+            height={"100%"}
+          />
+        </>
       )}
 
       {/* </Link> */}
