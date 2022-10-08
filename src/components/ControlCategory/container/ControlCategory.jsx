@@ -50,8 +50,6 @@ const ControlCategory = (props) => {
     });
   };
   const handlerTotals = (callback) => {
-    console.log("callback", callback);
-    console.log("totals", totals);
     setTotals({
       category: totals.category - callback.category,
       item: totals.item - callback.item,

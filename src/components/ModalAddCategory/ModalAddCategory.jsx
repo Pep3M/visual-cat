@@ -94,8 +94,6 @@ const ModalAddCategory = (props) => {
           if (response.status === 201) {
             const name = Object.keys(response.data)[0];
 
-            console.log(name);
-            console.log(response.data[name]);
             setOpenState(false);
             updateData({
               name,
@@ -116,6 +114,10 @@ const ModalAddCategory = (props) => {
     } else {
       setFetching(false);
     }
+  };
+
+  const handlePressEnter = (e) => {
+    if (e.keyCode === 13) addCategory();
   };
 
   const handlerValueCat = (e) => {
@@ -143,7 +145,7 @@ const ModalAddCategory = (props) => {
       }}
     >
       <Fade in={openState}>
-        <Box sx={style}>
+        <Box sx={style} onKeyUp={handlePressEnter}>
           <Typography
             variant="h4"
             style={{
@@ -172,6 +174,7 @@ const ModalAddCategory = (props) => {
                   : "Por favor, ingrese el nombre de la nueva categoria"
               }
               onChange={handlerValueCat}
+              onKeyUp={handlePressEnter}
             />
 
             <TextField
@@ -186,6 +189,7 @@ const ModalAddCategory = (props) => {
                   : "Pegue la ruta de la carpeta que desea agregar. Ej: 'D:\\PELIS'"
               }
               onChange={handlerValuePath}
+              onKeyUp={handlePressEnter}
             />
           </Box>
           <Typography

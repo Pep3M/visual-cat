@@ -18,7 +18,11 @@ import { useRef } from "react";
 import { useState } from "react";
 import { connect } from "react-redux";
 import { url_base } from "../../api/env";
-import { setOpenModalCart, setOpenSended, delAllSelection } from "../../store/actions";
+import {
+  setOpenModalCart,
+  setOpenSended,
+  delAllSelection,
+} from "../../store/actions";
 import {
   globalsColors,
   neumorphismDivContainer,
@@ -42,7 +46,8 @@ const style = {
 };
 
 const ModalCart = (props) => {
-  const { pelis, openState, setOpenModalCart, delAllSelection, setOpenSended } = props;
+  const { pelis, openState, setOpenModalCart, delAllSelection, setOpenSended } =
+    props;
 
   const theme = useTheme();
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
@@ -54,8 +59,10 @@ const ModalCart = (props) => {
   });
   const [errorNombrePedido, setErrorNombrePedido] = useState(false);
   const nombrePedido = useRef("");
-  const [labelPedido, setLabelPedido] = useState("Escriba el nombre del pedido aqui");
-  
+  const [labelPedido, setLabelPedido] = useState(
+    "Escriba el nombre del pedido aqui"
+  );
+
   const handleActionSend = () => {
     if (nombrePedido.current === "") return setErrorNombrePedido(true);
 
@@ -75,26 +82,28 @@ const ModalCart = (props) => {
 
     axios.request(options).then((response) => {
       if (response.status === 201) {
-        setOpenSended(nombrePedido.current)
-        delAllSelection(null)
+        setOpenSended(nombrePedido.current);
+        delAllSelection(null);
       }
     });
   };
 
+  const handlePressEnter = (e) => {
+    if (e.keyCode === 13) handleActionSend();
+  };
+
   const handleClose = () => setOpenModalCart(false);
   const handleAllClean = (e) => {
-    console.log("abriendo secure");
     setOpenSecureClean(true);
   };
   const handleCloseSecure = (e) => {
-    console.log("cerrando secure");
     setOpenSecureClean(false);
   };
   const handleChangeNombrePedido = (e) => {
-    nombrePedido.current = e.target.value
-    setErrorNombrePedido(false)
-  }
-  
+    nombrePedido.current = e.target.value;
+    setErrorNombrePedido(false);
+  };
+
   const getPrice = (size) => (size < 2500 ? state.price : state.priceHD);
 
   const total = () => {
@@ -141,7 +150,7 @@ const ModalCart = (props) => {
       }}
     >
       <Fade in={openState}>
-        <Box sx={style}>
+        <Box sx={style} onKeyUp={handlePressEnter}>
           <Typography
             variant="h4"
             style={{
@@ -154,11 +163,13 @@ const ModalCart = (props) => {
 
           <TextField
             error={errorNombrePedido}
-            helperText={errorNombrePedido ? 'No olvide ponerle un nombre a su pedido' : ''}
+            helperText={
+              errorNombrePedido ? "No olvide ponerle un nombre a su pedido" : ""
+            }
             variant="standard"
             label={labelPedido}
             fullWidth
-            onFocus={()=> setLabelPedido("Nombre del pedido")}
+            onFocus={() => setLabelPedido("Nombre del pedido")}
             style={{
               marginBottom: 10,
             }}

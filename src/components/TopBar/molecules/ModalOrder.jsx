@@ -73,7 +73,6 @@ const ModalOrder = (props) => {
 
     axios.request(options).then((response) => {
       if (response.status === 201) {
-        console.log("Eliminar orden de la API");
         setState({
           ...state,
           openDel: false,
@@ -95,7 +94,6 @@ const ModalOrder = (props) => {
 
     axios.request(options).then((response) => {
       if (response.status === 201) {
-        console.log("Orden eliminada de la lista");
         closed(true);
       }
     });

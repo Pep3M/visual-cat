@@ -78,7 +78,6 @@ const NotificationOrder = (props) => {
       .catch((err) => console.error("Error al obtener ordenes del API:", err));
 
     client.onopen = () => {
-      console.log("Conectado con el websocket server");
     };
     client.onmessage = (message) => {
       const info = JSON.parse(message.data);

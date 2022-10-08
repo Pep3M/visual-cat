@@ -38,7 +38,9 @@ const ModalOrderSended = (props) => {
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
 
   const handleClose = () => setOpenSended(false);
-
+  const handlePressEnter = (e) => {
+    if (e.keyCode === 13) handleClose();
+  };
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -51,7 +53,8 @@ const ModalOrderSended = (props) => {
       }}
     >
       <Fade in={Boolean(open)}>
-        <Box sx={style}>
+        <Box sx={style} 
+            onKeyUp={handlePressEnter}>
           <Typography
             variant="h4"
             style={{

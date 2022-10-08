@@ -48,7 +48,6 @@ const DelConfirmation = (props) => {
   const bp600down = useMediaQuery(theme.breakpoints.down(600));
 
   const handleAction = (e) => {
-    //console.log("Accion:", name, e);
     if (type === "Categoria") {
       delCategory(true);
       totalsSus({

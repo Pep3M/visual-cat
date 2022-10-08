@@ -67,10 +67,8 @@ const EditModal = (props) => {
   };
   const handleRemovePath = (callback) => {
     if (rutas.length !== 1) {
-      console.log(rutas[callback]);
       setRutas(rutas.filter((value, index) => index !== callback));
     } else {
-      console.log("borrar primero");
       setRutas([""]);
     }
   };
@@ -91,6 +89,10 @@ const EditModal = (props) => {
     setNameCategory(value);
   };
 
+  const handlePressEnter = (e) => {
+    if (e.keyCode === 13) handleAction();
+  };
+  
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -109,6 +111,8 @@ const EditModal = (props) => {
             ...style,
             width: bp600down ? "60%" : 400,
           }}
+          
+          onKeyUp={handlePressEnter}
         >
           <Typography
             variant="h5"

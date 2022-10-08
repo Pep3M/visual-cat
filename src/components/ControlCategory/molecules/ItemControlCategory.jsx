@@ -91,11 +91,9 @@ const ItemControlCategory = (props) => {
           paths: callback.rutas,
         },
       };
-      console.log(options);
       axios
         .request(options)
         .then(function (response) {
-          console.log(response);
           if (response.status === 201) {
             updateState(response.data[callback.nameCategory]);
           }
@@ -121,7 +119,6 @@ const ItemControlCategory = (props) => {
         .then((response) => {
           if (response.status === 201) {
             setVisible(false);
-            console.log(response.data);
             setFetching(false);
             setStateActions(emptyActions);
           }
@@ -184,6 +181,9 @@ const ItemControlCategory = (props) => {
         setFetching(false);
       });
   };
+  const handlePressEnter = (e, id) => {
+    if (e.keyCode === 13) handleDelItem(e, id);
+  };
   const handleDelItem = (callback) => {
     setFetching(true);
     const videos = newData.videos.filter(
@@ -219,7 +219,6 @@ const ItemControlCategory = (props) => {
 
   //Actions Menu Categories
   const menuAdd = (e, name) => {
-    console.log("add", name);
     handlerMenuClose();
   };
   const menuEdit = (e, name) => {
@@ -241,7 +240,6 @@ const ItemControlCategory = (props) => {
 
   //Actions Menu Items
   const itemEdit = (e) => {
-    console.log(dataItem.current.name);
     setEditItem(dataItem.current.name);
     valueEditItem.current = dataItem.current.name;
     handlerMenuCloseItem();
@@ -375,6 +373,7 @@ const ItemControlCategory = (props) => {
                   focused
                   fullWidth
                   onChange={(e) => (valueEditItem.current = e.target.value)}
+                  onKeyUp={(e) => handlePressEnter(e, item.id)}
                 />
                 <IconButton
                   color="primary"
