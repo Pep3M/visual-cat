@@ -33,17 +33,25 @@ const Main = (props) => {
   const [pelisApi, setPelisApi] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [showManager, setShowManager] = useState(false);
+  const [timeoutServer, setTimeoutServer] = useState(false);
 
   useEffect(() => {
     axios.get(`${url_base}pelis`).then((res) => {
       setPelisApi(res.data);
       setLoaded(true);
     });
-    axios.get(url_base_local).then((res) => {
-      if (res.status === 200) {
-        setShowManager(true);
-      }
-    });
+    axios
+      .get(url_base_local)
+      .then((res) => {
+        if (res.status === 200) {
+          setShowManager(true);
+          setTimeoutServer(false)
+        }
+      })
+      .catch((err) => {
+        setLoaded(true);
+        setTimeoutServer(true)
+      });
   }, []);
 
   const claves = Object.keys(pelisApi);
@@ -71,7 +79,7 @@ const Main = (props) => {
                 <CardContainer key={key} header={item} video={pelisApi[item]} />
               ))
             ) : (
-              <WithoutFilms manager={showManager} />
+              <WithoutFilms manager={showManager} timeout={timeoutServer} />
             )}
             <FabCustom />
           </Box>
