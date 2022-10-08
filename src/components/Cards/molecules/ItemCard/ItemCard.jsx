@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { url_base } from "../../../../api/env";
 import HdIndicator from "../../atoms/HdIndicator";
+import ImgNotFount from "../../atoms/ImgNotFount";
 
 const ItemCard = (props) => {
   const { title, img, id, size, data, pelis } = props;
@@ -64,14 +65,17 @@ const ItemCard = (props) => {
       {showImg ? (
         <div className="imagen_card">
           {img === "" ? (
-            <Skeleton
+            <>
+              <ImgNotFount />
+              {/* <Skeleton
               variant="rectangular"
               animation="wave"
               width={"100%"}
               height={"100%"}
-            />
+            /> */}
+            </>
           ) : (
-            <img src={url_base + "pelisImg?name=" + img} alt="" />
+            <img src={url_base + "pelisImg/" + img} alt="" />
           )}
         </div>
       ) : (

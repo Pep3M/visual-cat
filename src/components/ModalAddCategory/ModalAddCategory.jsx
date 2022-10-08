@@ -21,6 +21,7 @@ import {
 } from "../../styles/GlobalStyles";
 import { urlWinFormater } from "../../functions/formater";
 import CustomSnackBarr from "../ControlCategory/atoms/CustomSnackBarr";
+import { url_base } from "../../api/env";
 
 const style = {
   ...neumorphismDivContainer,
@@ -38,7 +39,7 @@ const style = {
 
 const optionsAddCategory = {
   method: "POST",
-  url: "http://localhost:3001/addcategory",
+  url: url_base + "addcategory",
   headers: { "Content-Type": "application/json" },
 };
 
