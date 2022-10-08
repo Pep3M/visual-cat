@@ -15,6 +15,7 @@ import FabCustom from "../components/FabCustom/FabCustom";
 import axios from "axios";
 import { url_base, url_base_local } from "../api/env";
 import ModalOrderSended from "../components/ModalCart/ModalOrderSended";
+import WithoutFilms from "../components/Guide/WithoutFilms";
 
 const theme = createTheme({
   palette: {
@@ -65,9 +66,13 @@ const Main = (props) => {
               paddingBottom: 20,
             }}
           >
-            {claves.map((item, key) => (
-              <CardContainer key={key} header={item} video={pelisApi[item]} />
-            ))}
+            {claves.length > 0 ? (
+              claves.map((item, key) => (
+                <CardContainer key={key} header={item} video={pelisApi[item]} />
+              ))
+            ) : (
+              <WithoutFilms manager={showManager} />
+            )}
             <FabCustom />
           </Box>
         )}
@@ -78,6 +83,7 @@ const Main = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  pelis: state.pelis, state
+  pelis: state.pelis,
+  state,
 });
 export default connect(mapStateToProps, null)(Main);

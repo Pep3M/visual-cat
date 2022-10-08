@@ -29,6 +29,7 @@ import { Link } from "react-router-dom";
 import { APP_NAME } from "../../GlobalConstants";
 import NotificationOrder from "./container/NotificationOrder";
 import usePushNotifications from "../../hooks/usePushNotifications";
+import FlashingContainer, { styleAlert } from "./container/FlashingContainer";
 
 const drawerWidth = 240;
 const navItems = ["Filmes"];
@@ -38,7 +39,6 @@ const TopBar = (props) => {
 
   const { subscriptionState } = usePushNotifications();
 
-  
   const theme = useTheme();
   const bp600up = useMediaQuery(theme.breakpoints.up(600));
 
@@ -125,15 +125,6 @@ const TopBar = (props) => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            {/* <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-              style={{ mr: 2, display: bp600up ? "none" : "block" }}
-            >
-              <MenuIcon />
-            </IconButton> */}
             <Link
               to={"/"}
               style={{
@@ -150,23 +141,6 @@ const TopBar = (props) => {
               />
             </Link>
           </Box>
-          {/* <Box sx={{ display: !bp600up ? "none" : "block" }}>
-            {navItems.map((item, key) => (
-              <Link key={key}
-                to={`/${item.toLowerCase()}`}
-                style={{ textDecoration: "none" }}
-              >
-                <Button
-                  key={item}
-                  variant="text"
-                  style={{ color: globalsColors.primary }}
-                >
-                  {item}
-                </Button>
-              </Link>
-            ))}
-          </Box> */}
-
           {showNotifications ? (
             <>
               <div
@@ -195,7 +169,9 @@ const TopBar = (props) => {
                     }}
                   >
                     <Settings />
+                    <FlashingContainer />
                   </IconButton>
+                  
                 </Tooltip>
               </Link>
             </>
@@ -204,26 +180,6 @@ const TopBar = (props) => {
           )}
         </Toolbar>
       </AppBar>
-      {/* <Box component="nav">
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          style={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawerPaper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Box> */}
       <Toolbar />
     </Box>
   );
