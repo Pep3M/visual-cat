@@ -35,10 +35,12 @@ const Main = (props) => {
   const [showManager, setShowManager] = useState(false);
   const [timeoutServer, setTimeoutServer] = useState(false);
 
+  console.log("openMain", loaded);
+
   useEffect(() => {
     axios.get(`${url_base}pelis`).then((res) => {
       setPelisApi(res.data);
-      setLoaded(false);
+      console.log("get");
     });
     axios
       .get(url_base_local)
@@ -46,8 +48,10 @@ const Main = (props) => {
         if (res.status === 200) {
           setShowManager(true);
           setTimeoutServer(false);
+          console.log("then 200");
         }
         setLoaded(true);
+        console.log("then other status");
       })
       .catch((err) => {
         setLoaded(true);
