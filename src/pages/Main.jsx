@@ -63,8 +63,8 @@ const Main = (props) => {
   const claves = Object.keys(pelisApi);
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        sx={{
+      <div
+        style={{
           width: "100%",
           minHeight: "100vh",
           backgroundColor: globalsColors.lightBasePrimary,
@@ -75,8 +75,8 @@ const Main = (props) => {
         {!loaded ? (
           <LinearProgress color="primary" />
         ) : (
-          <Box
-            sx={{
+          <div
+            style={{
               paddingBottom: 20,
             }}
           >
@@ -88,10 +88,10 @@ const Main = (props) => {
               <WithoutFilms manager={showManager} timeout={false} />
             )}
             <FabCustom />
-          </Box>
+          </div>
         )}
         <ModalOrderSended />
-      </Box>
+      </div>
     </ThemeProvider>
   );
 };

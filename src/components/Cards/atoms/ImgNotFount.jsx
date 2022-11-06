@@ -19,17 +19,6 @@ const ImgNotFount = () => {
         src={process.env.PUBLIC_URL + "/logo192.png"}
         alt="Imagen no encontrada"
       />
-      {/* <img
-        style={{
-          objectFit: "contain",
-          opacity: 0.5,
-          position: 'absolute',
-          filter: "blur(20px)",
-          scale: 'calc(100% * 1.2)'
-        }}
-        src={process.env.PUBLIC_URL + "/logo192.png"}
-        alt="Imagen no encontrada"
-      /> */}
     </div>
   );
 };

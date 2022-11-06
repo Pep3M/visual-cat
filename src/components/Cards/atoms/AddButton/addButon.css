@@ -30,8 +30,8 @@ button:focus {
     padding: 0;
     position: relative;
     cursor: pointer;
-    box-shadow: -1px -1px 10px 1px rgba(25,118,210, 0.404);
-    backdrop-filter: blur(3px);
+    box-shadow: -1px -1px 10px 1px rgba(25,118,210, 0.404);/* 
+    backdrop-filter: blur(3px); */
     
 }
 .sf-btn.add {
@@ -47,7 +47,7 @@ button:focus {
     background-color: #45bc8e;
     border: none;
     transform: scale(0.8);
-    transition: 0.5s ease;
+    /* transition: 0.5s ease; */
 }
 .sf-btn.loading {
     background-color: #eaeaea;
@@ -108,10 +108,10 @@ button:focus {
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
     border-radius: 4px;
-    -webkit-transition: all 0.4s;
+    /* -webkit-transition: all 0.4s;
     -moz-transition: all 0.4s;
     -o-transition: all 0.4s;
-    transition: all 0.4s;
+    transition: all 0.4s; */
 }
 
 .add .line {

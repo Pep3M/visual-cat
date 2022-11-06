@@ -25,7 +25,7 @@ const ShowMore = (props) => {
   }
   
   return (
-    <Box
+    <div
       width={"100%"}
       style={{
         display: cant ? "flex" : "none",
@@ -44,7 +44,7 @@ const ShowMore = (props) => {
       >
         {open ? `Mostrar menos` : `Mostrar ${cant} mas`}
       </ExpandButton>
-    </Box>
+    </div>
   );
 };
 

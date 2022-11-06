@@ -1,6 +1,5 @@
-import { Box, Typography } from "@material-ui/core";
-import { useMediaQuery, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import { Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import {
   globalsColors,
   neumorphismDivContainer,
@@ -12,12 +11,31 @@ const CardContainer = (props) => {
   const { header, video } = props;
   const [showMore, setShowMore] = useState(false);
 
+  const [myVideos, setMyVideos] = useState(video.videos.slice(0, 6));
+
+  useEffect(() => {
+    if (showMore) {
+      let arr = myVideos;
+      let i = 0;
+      for (i = 12; i < video.videos.length; i += 6) {
+        arr = arr.concat(video.videos.slice(i - 6, i));
+      }
+      if (i > video.videos.length) {
+        arr = arr.concat(video.videos.slice(arr.length, video.videos.length));
+      }
+      setMyVideos(video.videos);
+    } else {
+      setMyVideos(video.videos.slice(0, 6));
+    }
+    return;
+  }, [showMore]);
+
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         ...neumorphismDivContainer,
         margin: 20,
-        mb: 0,
+        marginBottom: 0,
         padding: 10,
       }}
     >
@@ -33,38 +51,27 @@ const CardContainer = (props) => {
         {header}
       </Typography>
 
-      <Box
-        sx={{
+      <div
+        style={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "center",
         }}
       >
-        {!showMore
-          ? video.videos
-              .slice(0, 6)
-              .map((item, key) => (
-                <ItemCard
-                  key={key}
-                  title={item.Nombre}
-                  data={item}
-                  img={item.Imagen}
-                />
-              ))
-          : video.videos.map((item, key) => (
-              <ItemCard
-                key={key}
-                title={item.Nombre}
-                data={item}
-                img={item.Imagen}
-              />
-            ))}
-      </Box>
+        {myVideos.map((item, key) => (
+          <ItemCard
+            key={key}
+            title={item.Nombre}
+            data={item}
+            img={item.Imagen}
+          />
+        ))}
+      </div>
       <ShowMore
         cantidad={video.videos.length}
         callbackShow={(e) => setShowMore(e)}
       />
-    </Box>
+    </div>
   );
 };
 

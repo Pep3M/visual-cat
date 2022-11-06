@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
   AppBar,
-  Box,
   Divider,
   IconButton,
   List,
@@ -10,97 +9,27 @@ import {
   ListItemText,
   Toolbar,
   Typography,
-  Button,
-  Drawer,
-  Badge,
-  MenuItem,
-  ListItemAvatar,
-  Avatar,
 } from "@material-ui/core";
 import ListItemButton from "@mui/material/ListItemButton";
-import { useMediaQuery, Tooltip, Menu } from "@mui/material";
+import { useMediaQuery, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import {
   globalsColors,
-  neumorphismDivContainer,
 } from "../../styles/GlobalStyles";
-import { Notifications, Settings } from "@mui/icons-material";
+import { Settings } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { APP_NAME } from "../../GlobalConstants";
 import NotificationOrder from "./container/NotificationOrder";
-import usePushNotifications from "../../hooks/usePushNotifications";
-import FlashingContainer, { styleAlert } from "./container/FlashingContainer";
-
-const drawerWidth = 240;
-const navItems = ["Filmes"];
+import FlashingContainer from "./container/FlashingContainer";
 
 const TopBar = (props) => {
   const { showNotifications, showManager } = props;
 
-  const { subscriptionState } = usePushNotifications();
-
   const theme = useTheme();
   const bp600up = useMediaQuery(theme.breakpoints.up(600));
 
-  const { window } = props;
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const drawer = (
-    <Box
-      onClick={handleDrawerToggle}
-      sx={{
-        height: "100%",
-        textAlign: "center",
-        bgcolor: globalsColors.lightBaseThin,
-      }}
-    >
-      <Link
-        to={"/"}
-        style={{
-          textDecoration: "none",
-        }}
-      >
-        <Typography
-          variant="h6"
-          style={{
-            color: globalsColors.primary,
-            backgroundColor: globalsColors.lightBaseSecondary,
-            padding: 20,
-          }}
-        >
-          Visual<strong>Cat</strong>
-        </Typography>
-      </Link>
-      <Divider />
-      <List>
-        {navItems.map((item) => (
-          <ListItem key={item}>
-            <Link
-              to={`/${item.toLowerCase()}`}
-              style={{ textDecoration: "none" }}
-            >
-              <ListItemButton
-                sx={{ textAlign: "center", color: globalsColors.primary }}
-              >
-                <ListItemText primary={item} />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-
-  const container =
-    window !== undefined ? () => window().document.body : undefined;
-
   return (
-    <Box
-      sx={{
+    <div
+      style={{
         display: "flex",
         justifyContent: "space-between",
       }}
@@ -111,7 +40,7 @@ const TopBar = (props) => {
           backgroundColor: globalsColors.lightBaseThin,
           color: globalsColors.primary,
           borderBottom: `${globalsColors.primaryThin} 1px solid`,
-          backdropFilter: "blur(20px)",
+          /* backdropFilter: "blur(20px)", */
           boxShadow:
             "0px 2px 4px -1px RGB(255,255,255,0.3), 0px 4px 5px 0px RGB(255,255,255,0.2)",
         }}
@@ -124,7 +53,7 @@ const TopBar = (props) => {
             alignItems: "center",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <Link
               to={"/"}
               style={{
@@ -140,7 +69,7 @@ const TopBar = (props) => {
                 }}
               />
             </Link>
-          </Box>
+          </div>
           {showNotifications ? (
             <>
               <div
@@ -181,7 +110,7 @@ const TopBar = (props) => {
         </Toolbar>
       </AppBar>
       <Toolbar />
-    </Box>
+    </div>
   );
 };
 

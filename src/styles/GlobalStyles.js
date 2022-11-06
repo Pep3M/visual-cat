@@ -4,8 +4,9 @@ export const globalsColors = {
   primary: "rgb(25,118,210)",
   redPrimary: "#ed1c24",
   primaryThin: "rgba(25,118,210,0.2)",
+  primaryStrong: "rgba(25,118,210,0.8)",
   lightBasePrimary: "#e9f5ff",
-  lightBaseThin: "rgb(255,255,255,0.4)",
+  lightBaseThin: "rgb(255,255,255,0.9)",
   lightBaseSecondary: "#fcfcfc",
   lightBaseExtra: "#eaeaea",
 };
