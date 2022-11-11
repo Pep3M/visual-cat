@@ -1,4 +1,4 @@
-import { Hd, HdOutlined } from "@mui/icons-material";
+import { HdOutlined } from "@mui/icons-material";
 import React from "react";
 
 const HdIndicator = () => {
@@ -12,7 +12,7 @@ const HdIndicator = () => {
         zIndex: 100,
       }}
     >
-      <Hd color="primary" />
+      <HdOutlined color="primary"/>
     </div>
   );
 };
